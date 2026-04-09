@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fariyazehrin.com</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:       #0C0A1C;
+      --bg-card:  #181530;
+      --glass:    rgba(255,255,255,0.03);
+      --pink:     #FF85A2;
+      --pink-l:   #FFB3C6;
+      --purple:   #B09EFF;
+      --purple-l: #D4C0FF;
+      --blue:     #85B8FF;
+      --blue-l:   #B8D6FF;
+      --mint:     #7FFFD4;
+      --gold:     #FFD085;
+      --text:     #EDE8FF;
+      --muted:    #8B80B0;
+      --white:    #FFF8FF;
+      --chrome:   #231E45;
+      --border:   #3D3472;
+      --px: 'Press Start 2P', monospace;
+      --bd: 'Nunito', sans-serif;
+      --gp: 0 0 22px rgba(255,133,162,0.4),  0 0 44px rgba(255,133,162,0.15);
+      --gv: 0 0 22px rgba(176,158,255,0.4),  0 0 44px rgba(176,158,255,0.15);
+      --r:  6px; --rm: 12px; --rl: 20px;
+    }
+    *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--text); font-family:var(--bd); line-height:1.7; overflow-x:hidden; }
+
+    /* ── STAR FIELD ── */
+    #stars { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+    .star { position:absolute; border-radius:50%; animation:twinkle var(--d,3s) ease-in-out infinite var(--del,0s); }
+    @keyframes twinkle { 0%,100%{opacity:var(--mn,.2);transform:scale(1);} 50%{opacity:1;transform:scale(1.4);} }
+
+    /* ── WINDOW CHROME ── */
+    .win { background:var(--bg-card); border:1.5px solid var(--border); border-radius:var(--rm); overflow:hidden; }
+    .wbar { background:var(--chrome); padding:8px 14px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
+    .wdots { display:flex; gap:5px; }
+    .wd { width:10px; height:10px; border-radius:50%; }
+    .wd-r{background:#FF6B8A;} .wd-y{background:#FFD085;} .wd-g{background:#79E7A0;}
+    .wtitle { font-family:var(--px); font-size:6px; color:var(--muted); flex:1; text-align:center; letter-spacing:1px; }
+    .wbody { padding:20px; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:200;
+      height:58px; display:flex; align-items:center; justify-content:space-between;
+      padding:0 48px;
+      background:rgba(12,10,28,0.92); backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--border);
+    }
+    nav::after {
+      content:''; position:absolute; top:0; left:0; right:0; height:2px;
+      background:linear-gradient(90deg,var(--pink),var(--purple),var(--blue),var(--mint),var(--purple),var(--pink));
+    }
+    .nlogo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .ngem {
+      width:30px; height:30px; border-radius:8px;
+      background:linear-gradient(135deg,var(--pink),var(--purple));
+      display:flex; align-items:center; justify-content:center; font-size:14px;
+      box-shadow:var(--gp);
+    }
+    .ntext { font-family:var(--px); font-size:8px; color:var(--white); letter-spacing:.5px; }
+    .nmenu { display:flex; gap:4px; list-style:none; }
+    .nmenu a { font-family:var(--px); font-size:6px; color:var(--muted); text-decoration:none; padding:7px 11px; border-radius:var(--r); transition:all .2s; letter-spacing:.5px; }
+    .nmenu a:hover,.nmenu a.active { color:var(--pink-l); background:rgba(255,133,162,.1); }
+    .nright { display:flex; align-items:center; gap:14px; }
+    .tog { width:42px; height:22px; background:var(--chrome); border:1.5px solid var(--border); border-radius:11px; position:relative; cursor:pointer; }
+    .tog-thumb { position:absolute; left:3px; top:3px; width:14px; height:14px; border-radius:50%; background:linear-gradient(135deg,var(--purple),var(--pink)); transition:transform .2s; }
+    /* cursor button + hint */
+    .cur-wrap { position:relative; display:flex; flex-direction:column; align-items:center; }
+    .curdot { width:26px; height:26px; border-radius:50%; border:1.5px solid var(--border); background:var(--chrome); display:flex; align-items:center; justify-content:center; font-size:11px; cursor:pointer; transition:all .2s; }
+    .curdot:hover { border-color:var(--pink); box-shadow:var(--gp); }
+    .cur-hint {
+      position:absolute; top:32px; white-space:nowrap;
+      font-family:var(--px); font-size:5px; color:var(--pink-l);
+      letter-spacing:.5px; pointer-events:none;
+      display:flex; align-items:center; gap:4px;
+      animation:hintbob 1.8s ease-in-out infinite;
+    }
+    .cur-hint::before { content:'↑'; font-size:8px; }
+    @keyframes hintbob { 0%,100%{transform:translateY(0);opacity:1;} 50%{transform:translateY(-3px);opacity:.7;} }
+
+    /* ── LAYOUT ── */
+    main { position:relative; z-index:1; }
+    section { min-height:100vh; padding:100px 80px 80px; }
+    .wrap { max-width:1240px; margin:0 auto; width:100%; }
+
+    /* ── SECTION HEADER ── */
+    .sh { margin-bottom:48px; }
+    .stag { font-family:var(--px); font-size:6px; color:var(--pink-l); letter-spacing:2px; display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+    .stag::before { content:''; width:24px; height:1px; background:var(--pink); }
+    .stitle { font-family:var(--px); font-size:clamp(16px,2vw,22px); color:var(--white); line-height:1.7; }
+    .stitle span { background:linear-gradient(90deg,var(--pink-l),var(--purple-l)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
+    /* ── BUTTONS ── */
+    .btn { font-family:var(--px); font-size:7px; letter-spacing:.5px; border-radius:var(--r); padding:11px 20px; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:all .2s; border:none; }
+    .bglow { background:linear-gradient(135deg,var(--pink),#D06080); color:#fff; box-shadow:var(--gp); }
+    .bglow:hover { transform:translateY(-2px); filter:brightness(1.1); }
+    .bout { background:transparent; color:var(--purple-l); border:1.5px solid var(--purple); }
+    .bout:hover { background:rgba(176,158,255,.08); transform:translateY(-2px); box-shadow:var(--gv); }
+
+    /* ── BADGES ── */
+    .b { font-family:var(--px); font-size:5px; letter-spacing:.5px; padding:3px 8px; border-radius:3px; border:1px solid; display:inline-block; }
+    .bp{color:var(--pink-l);border-color:var(--pink);background:rgba(255,133,162,.08);}
+    .bv{color:var(--purple-l);border-color:var(--purple);background:rgba(176,158,255,.08);}
+    .bb{color:var(--blue-l);border-color:var(--blue);background:rgba(133,184,255,.08);}
+    .bm{color:var(--mint);border-color:var(--mint);background:rgba(127,255,212,.08);}
+    .bg{color:var(--gold);border-color:var(--gold);background:rgba(255,208,133,.08);}
+
+    /* ══ PIXEL ART CHARACTER ════════════════════════ */
+    .pxchar {
+      image-rendering: pixelated;
+      filter: drop-shadow(0 0 18px rgba(176,158,255,0.55)) drop-shadow(0 0 36px rgba(255,133,162,0.2));
+    }
+    .pxchar-wave { animation:avwave 2.8s ease-in-out infinite; }
+    @keyframes avwave {
+      0%,100%{transform:rotate(-2deg) translateY(0);}
+      30%{transform:rotate(3deg) translateY(-5px);}
+      60%{transform:rotate(-1deg) translateY(-2px);}
+    }
+
+    /* ══ HERO ════════════════════════════════════════ */
+    #hero { display:flex; align-items:center; position:relative; overflow:hidden; }
+    .orb { position:absolute; border-radius:50%; filter:blur(90px); pointer-events:none; }
+    .o1 { width:420px;height:420px; background:radial-gradient(circle,rgba(176,158,255,.1) 0%,transparent 70%); top:-120px;right:-60px; }
+    .o2 { width:320px;height:320px; background:radial-gradient(circle,rgba(255,133,162,.08) 0%,transparent 70%); bottom:0;left:80px; }
+    .o3 { width:200px;height:200px; background:radial-gradient(circle,rgba(127,255,212,.06) 0%,transparent 70%); top:30%;left:40%; }
+    #hero .wrap { display:grid; grid-template-columns:1fr 420px; gap:64px; align-items:center; }
+    .hleft { display:flex; flex-direction:column; gap:22px; }
+    .hstatus { display:inline-flex; align-items:center; gap:8px; background:rgba(127,255,212,.06); border:1px solid rgba(127,255,212,.22); padding:5px 12px; border-radius:20px; width:fit-content; }
+    .pdot { width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 6px var(--mint);animation:pulse 2.5s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 4px var(--mint);} 50%{box-shadow:0 0 14px var(--mint),0 0 26px rgba(127,255,212,.3);} }
+    .slabel { font-family:var(--px); font-size:5px; color:var(--mint); letter-spacing:1px; }
+    .hhead { font-family:var(--px); font-size:clamp(20px,2.8vw,34px); line-height:1.8; color:var(--white); min-height:120px; }
+    .hgrad { background:linear-gradient(135deg,var(--pink-l),var(--purple-l),var(--blue-l)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .tcur { display:inline-block; width:3px; height:28px; background:var(--pink); animation:blink 1s step-end infinite; vertical-align:middle; margin-left:4px; }
+    @keyframes blink { 50%{opacity:0;} }
+    .hrole { font-family:var(--px); font-size:9px; color:var(--purple-l); letter-spacing:2px; line-height:2; }
+    .hbio { font-size:14px; color:var(--muted); line-height:1.9; max-width:500px; border-left:3px solid var(--pink); padding:12px 16px; background:rgba(255,133,162,.04); border-radius:0 var(--r) var(--r) 0; }
+    .hbio strong { color:var(--pink-l); }
+    .htags { display:flex; gap:8px; flex-wrap:wrap; }
+    .hctas { display:flex; gap:12px; flex-wrap:wrap; }
+    .hsoc { display:flex; gap:8px; margin-top:4px; flex-wrap:wrap; }
+    .spill { display:inline-flex; align-items:center; gap:6px; padding:5px 10px; border-radius:20px; background:var(--bg-card); border:1px solid var(--border); font-size:11px; color:var(--muted); text-decoration:none; transition:all .2s; }
+    .spill:hover { border-color:var(--purple); color:var(--purple-l); }
+    /* Hero right */
+    .hwin { animation:float 5s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+    .avzone { background:linear-gradient(160deg,#1C1645,#23103C,#101C40); min-height:280px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+    .gridlines { position:absolute; inset:0; opacity:.1; background:linear-gradient(rgba(176,158,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(176,158,255,1) 1px,transparent 1px); background-size:28px 28px; }
+    .orbit { position:absolute; border-radius:50%; border:1.5px dashed rgba(176,158,255,.3); animation:spin var(--sp,8s) linear infinite; }
+    @keyframes spin { to{transform:rotate(360deg);} }
+    .o-a{width:160px;height:160px;--sp:8s;} .o-b{width:210px;height:210px;--sp:14s;border-style:dotted;border-color:rgba(255,133,162,.2);animation-direction:reverse;}
+    .fd { position:absolute;font-size:18px;z-index:3;animation:fdeco var(--fd,3s) ease-in-out infinite var(--dl,0s); }
+    @keyframes fdeco { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-7px) rotate(6deg);} }
+    .hstrow { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--border); }
+    .hst { padding:12px 14px; text-align:center; border-right:1px solid var(--border); }
+    .hst:last-child{border-right:none;}
+    .hsl { font-family:var(--px);font-size:5px;color:var(--muted);letter-spacing:.5px;display:block;margin-bottom:5px; }
+    .hsv { font-family:var(--px);font-size:8px;color:var(--purple-l); }
+
+    /* ══ ABOUT ════════════════════════════════════════ */
+    #about { background:linear-gradient(180deg,var(--bg) 0%,#0F0C22 100%); }
+    #about .wrap { display:grid; grid-template-columns:260px 1fr; gap:64px; align-items:start; }
+    .aleft { display:flex; flex-direction:column; gap:20px; align-items:center; }
+    .strow { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+    .sticker { background:var(--bg-card); border:1.5px solid var(--border); border-radius:10px; padding:5px 10px; font-size:11px; color:var(--muted); display:flex; align-items:center; gap:5px; }
+    .aright { display:flex; flex-direction:column; gap:24px; }
+    .ql .wbody { font-size:13.5px; color:var(--muted); line-height:1.9; }
+    .ql .wbody strong{color:var(--pink-l);} .ql .wbody em{color:var(--purple-l);font-style:normal;}
+    /* Timeline */
+    .tline { position:relative; padding-left:40px; }
+    .tline::before { content:'';position:absolute;left:10px;top:14px;bottom:14px;width:2px;background:linear-gradient(180deg,var(--pink),var(--purple),var(--blue)); }
+    .ti { position:relative; margin-bottom:20px; }
+    .ti:last-child{margin-bottom:0;}
+    .tdot { position:absolute;left:-36px;top:2px;width:24px;height:24px;border-radius:50%;background:var(--bg-card);border:2px solid var(--purple);display:flex;align-items:center;justify-content:center;font-size:10px;z-index:1; }
+    .ti.now .tdot{border-color:var(--pink);box-shadow:var(--gp);background:rgba(255,133,162,.1);}
+    .tyr{font-family:var(--px);font-size:5.5px;color:var(--pink-l);letter-spacing:1px;margin-bottom:3px;}
+    .ttxt{font-size:13px;color:var(--muted);font-weight:700;}
+    .tsub{font-size:11px;color:var(--muted);margin-top:2px;opacity:.8;}
+    /* Skills */
+    .sklist{display:flex;flex-direction:column;gap:10px;}
+    .skrow{display:grid;grid-template-columns:100px 1fr 36px;align-items:center;gap:12px;}
+    .sknm{font-family:var(--px);font-size:5.5px;color:var(--muted);letter-spacing:.5px;}
+    .sktr{height:8px;background:var(--chrome);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+    .skfi{height:100%;border-radius:4px;position:relative;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+    .skfi::after{content:'';position:absolute;top:1.5px;left:5px;right:5px;height:2.5px;background:rgba(255,255,255,.25);border-radius:2px;}
+    .fp{background:linear-gradient(90deg,#FF6B8A,var(--pink-l));}
+    .fv{background:linear-gradient(90deg,#8B6FEF,var(--purple-l));}
+    .fb{background:linear-gradient(90deg,#5BA0EF,var(--blue-l));}
+    .fm{background:linear-gradient(90deg,#2ECFA0,var(--mint));}
+    .fg{background:linear-gradient(90deg,#EFB830,var(--gold));}
+    .fa{background:linear-gradient(90deg,#9B6FEF,#D4C0FF);}
+    .skpc{font-family:var(--px);font-size:5.5px;color:var(--muted);text-align:right;}
+
+    /* ══ PROJECTS ════════════════════════════════════ */
+    #projects{background:#0F0C22;}
+    .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+    .pcard{border-radius:var(--rm);border:1.5px solid var(--border);background:var(--bg-card);overflow:hidden;transition:all .3s cubic-bezier(.4,0,.2,1);cursor:pointer;}
+    .pcard:hover{transform:translateY(-6px) scale(1.01);border-color:var(--pink);box-shadow:var(--gp),0 20px 40px rgba(0,0,0,.4);}
+    .pcard:nth-child(2):hover{border-color:var(--purple);box-shadow:var(--gv),0 20px 40px rgba(0,0,0,.4);}
+    .pcard:nth-child(3){border-style:dashed;}
+    .pcard:nth-child(3):hover{border-color:var(--gold);border-style:solid;box-shadow:0 0 22px rgba(255,208,133,.3),0 20px 40px rgba(0,0,0,.4);}
+    .pthumb{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:44px;position:relative;overflow:hidden;}
+    .pt1{background:linear-gradient(160deg,#180D40,#2D0F50,#0D1C48);}
+    .pt2{background:linear-gradient(160deg,#0D1C40,#0D0D30,#1C0D3C);}
+    .pt3{background:linear-gradient(160deg,#1C1040,#300D30,#1C1C10);}
+    .tgrid{position:absolute;inset:0;opacity:.08;background:linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px);background-size:20px 20px;}
+    .tbadge{position:absolute;bottom:8px;right:8px;}
+    .pbody{padding:16px;display:flex;flex-direction:column;gap:9px;}
+    .ptitle{font-family:var(--px);font-size:7.5px;color:var(--white);line-height:1.7;}
+    .pdesc{font-size:12px;color:var(--muted);line-height:1.6;}
+    .ptags{display:flex;flex-wrap:wrap;gap:5px;}
+    .plinks{display:flex;gap:8px;padding-top:4px;}
+    .pl{font-family:var(--px);font-size:5.5px;letter-spacing:.5px;padding:6px 10px;border-radius:4px;border:1px solid var(--border);background:var(--glass);color:var(--muted);text-decoration:none;cursor:pointer;transition:all .2s;}
+    .pl:hover{border-color:var(--purple);color:var(--purple-l);}
+    .plm{border-color:var(--pink);color:var(--pink-l);}
+    .plm:hover{background:rgba(255,133,162,.08);}
+
+    /* ══ PLAYGROUND ═══════════════════════════════════ */
+    #playground{background:linear-gradient(180deg,#0F0C22 0%,var(--bg) 100%);}
+    #playground .wrap{display:grid;grid-template-columns:1.2fr .9fr;gap:28px;align-items:start;}
+    .cmsgs{padding:16px;display:flex;flex-direction:column;gap:12px;min-height:200px;}
+    .cm{display:flex;gap:10px;}
+    .cmu{flex-direction:row-reverse;}
+    .cav{width:28px;height:28px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;overflow:hidden;padding:0;}
+    .avb{background:linear-gradient(135deg,var(--purple),var(--pink));}
+    .avu{background:var(--chrome);border:1px solid var(--border);}
+    .cbub{padding:8px 12px;border-radius:10px;font-size:12px;line-height:1.6;max-width:82%;}
+    .cm .cbub{background:var(--chrome);border:1px solid var(--border);border-radius:2px 10px 10px 10px;color:var(--text);}
+    .cmu .cbub{background:linear-gradient(135deg,rgba(255,133,162,.12),rgba(176,158,255,.12));border:1px solid rgba(176,158,255,.2);border-radius:10px 2px 10px 10px;color:var(--text);}
+    .typing-dots span{animation:tdot 1.4s infinite;opacity:0;font-size:14px;}
+    .typing-dots span:nth-child(2){animation-delay:.2s;}
+    .typing-dots span:nth-child(3){animation-delay:.4s;}
+    @keyframes tdot{0%,60%,100%{opacity:0;}30%{opacity:1;}}
+    .cinrow{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;}
+    .cin{flex:1;background:var(--chrome);border:1px solid var(--border);border-radius:var(--r);padding:7px 12px;font-family:var(--px);font-size:5.5px;color:var(--text);letter-spacing:.5px;outline:none;transition:border-color .2s;}
+    .cin:focus{border-color:var(--purple);}
+    .csnd{background:linear-gradient(135deg,var(--pink),var(--purple));border:none;border-radius:var(--r);width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;}
+    .csnd:hover{transform:scale(1.1);filter:brightness(1.1);}
+    .exst{display:flex;flex-direction:column;gap:14px;}
+    .exitem{border-radius:var(--rm);border:1.5px solid var(--border);background:var(--bg-card);padding:14px 16px;display:flex;align-items:center;gap:14px;transition:all .2s;cursor:pointer;}
+    .exitem:hover{border-color:var(--purple);background:rgba(176,158,255,.04);}
+    .exic{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+    .ei1{background:linear-gradient(135deg,rgba(176,158,255,.2),rgba(255,133,162,.2));}
+    .ei2{background:linear-gradient(135deg,rgba(133,184,255,.2),rgba(127,255,212,.2));}
+    .ei3{background:linear-gradient(135deg,rgba(255,208,133,.2),rgba(255,133,162,.2));}
+    .ei4{background:rgba(255,208,133,.08);border:1px dashed rgba(255,208,133,.3);}
+    .extl{font-family:var(--px);font-size:7px;color:var(--white);margin-bottom:4px;letter-spacing:.5px;}
+    .exds{font-size:11px;color:var(--muted);}
+
+    /* ══ CONTACT ══════════════════════════════════════ */
+    #contact{background:var(--bg);}
+    #contact .wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:start;}
+    .cleft{display:flex;flex-direction:column;gap:24px;}
+    .dlg{border:2px solid var(--pink);border-radius:var(--rm);background:var(--bg-card);padding:20px;position:relative;}
+    .dlgtag{position:absolute;top:-11px;left:14px;background:var(--pink);color:white;font-family:var(--px);font-size:5.5px;padding:3px 8px;border-radius:3px;letter-spacing:.5px;}
+    .dlgtxt{font-size:13.5px;color:var(--text);line-height:1.9;}
+    .blk{display:inline-block;width:9px;height:15px;background:var(--pink);animation:blink 1s step-end infinite;vertical-align:text-bottom;margin-left:2px;border-radius:1px;}
+    .clinks{display:flex;flex-direction:column;gap:10px;}
+    .clrow{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--r);border:1px solid var(--border);background:var(--glass);text-decoration:none;transition:all .2s;}
+    .clrow:hover{border-color:var(--purple);background:rgba(176,158,255,.04);}
+    .clic{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+    .ci1{background:rgba(176,158,255,.15);} .ci2{background:rgba(133,184,255,.15);} .ci3{background:rgba(255,133,162,.15);} .ci4{background:rgba(127,255,212,.15);} .ci5{background:rgba(255,100,80,.12);}
+    .cll{font-family:var(--px);font-size:5.5px;color:var(--muted);letter-spacing:.5px;margin-bottom:2px;}
+    .clv{font-size:12px;color:var(--text);}
+    .cform{display:flex;flex-direction:column;gap:14px;}
+    .fg{display:flex;flex-direction:column;gap:6px;}
+    .flbl{font-family:var(--px);font-size:5.5px;color:var(--muted);letter-spacing:.5px;}
+    .fin{background:var(--chrome);border:1.5px solid var(--border);border-radius:var(--r);padding:10px 14px;font-family:var(--bd);font-size:13px;color:var(--text);transition:border-color .2s;width:100%;outline:none;}
+    .fin:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(176,158,255,.08);}
+    textarea.fin{min-height:96px;resize:vertical;}
+    .fsub{background:linear-gradient(135deg,var(--pink),var(--purple));border:none;border-radius:var(--r);padding:13px;font-family:var(--px);font-size:7px;color:white;cursor:pointer;width:100%;letter-spacing:1px;transition:all .2s;}
+    .fsub:hover{opacity:.9;transform:translateY(-2px);box-shadow:var(--gp);}
+    /* Form success state */
+    .form-success{display:none;text-align:center;padding:30px 20px;}
+    .form-success .fs-icon{font-size:40px;margin-bottom:14px;animation:popIn .4s cubic-bezier(.17,.67,.35,1.5);}
+    .form-success .fs-msg{font-family:var(--px);font-size:8px;color:var(--mint);letter-spacing:1px;line-height:2;}
+    @keyframes popIn{0%{transform:scale(0) rotate(-10deg);}100%{transform:scale(1) rotate(0);}}
+
+    /* ── FOOTER ── */
+    footer{border-top:1px solid var(--border);padding:28px 80px;display:flex;align-items:center;justify-content:space-between;background:var(--bg);}
+    .ftxt{font-family:var(--px);font-size:5.5px;color:var(--muted);line-height:2.2;letter-spacing:.5px;}
+    .fhrt{font-size:16px;display:flex;gap:6px;}
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar{width:5px;}
+    ::-webkit-scrollbar-track{background:var(--bg);}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+    ::-webkit-scrollbar-thumb:hover{background:var(--purple);}
+
+    /* ── CURSOR TRAIL ── */
+    @keyframes fadeout{from{opacity:1;transform:translateY(0) scale(1);}to{opacity:0;transform:translateY(-14px) scale(.3);}}
+
+    /* ── LIGHT MODE ── */
+    body.light {
+      --bg:#F5F0FF; --bg-card:#FFFFFF; --glass:rgba(0,0,0,0.03);
+      --text:#2D2450; --muted:#7B70A8; --white:#2D2450;
+      --chrome:#EDE8FF; --border:#C9BCEE;
+    }
+    body.light nav { background:rgba(245,240,255,0.92); }
+    body.light #stars { opacity:.4; }
+  </style>
+</head>
+<body>
+
+<div id="stars"></div>
+
+<!-- ═══ NAVBAR ═══════════════════════════════════════ -->
+<nav>
+  <a href="#hero" class="nlogo">
+    <div class="ngem">♠</div>
+    <span class="ntext">fariyazehrin.com</span>
+  </a>
+
+  <ul class="nmenu">
+    <li><a href="#hero"       class="active">HOME</a></li>
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#projects">PROJECTS</a></li>
+    <li><a href="#playground">PLAY</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+
+  <div class="nright">
+    <div class="tog" id="modeToggle" title="Toggle light/dark mode">
+      <div class="tog-thumb" id="togThumb"></div>
+    </div>
+    <div class="cur-wrap">
+      <div class="curdot" id="curBtn" title="Toggle cursor sparkle">✦</div>
+      <div class="cur-hint" id="curHint">click me!</div>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══ HERO ═════════════════════════════════════════ -->
+<section id="hero">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="wrap">
+
+    <div class="hleft">
+      <div class="hstatus">
+        <div class="pdot"></div>
+        <span class="slabel">OPEN TO INTERNSHIPS — PERTH / REMOTE</span>
+      </div>
+
+      <h1 class="hhead" id="heroHead"><span class="tcur"></span></h1>
+
+      <p class="hrole">FRONTEND DEV IN TRAINING ✦ CS @ UWA</p>
+
+      <p class="hbio">
+        <strong>Computer Science student</strong> at the University of Western Australia, Perth.
+        I build interfaces that think like <strong>systems</strong> and feel like <strong>games</strong>.
+        Currently levelling up in HTML, CSS &amp; JavaScript — one pixel at a time. ✦
+      </p>
+
+      <div class="htags">
+        <span class="b bp">HTML / CSS</span>
+        <span class="b bv">JAVASCRIPT</span>
+        <span class="b bb">FIGMA</span>
+        <span class="b bm">UI / UX DESIGN</span>
+        <span class="b bg">DESIGN SYSTEMS</span>
+      </div>
+
+      <div class="hctas">
+        <a href="#projects" class="btn bglow">VIEW PROJECTS ▶</a>
+        <a href="#"         class="btn bout">DOWNLOAD CV ↓</a>
+      </div>
+
+      <div class="hsoc">
+        <a href="https://www.linkedin.com/in/fariya-zk"     class="spill" target="_blank" rel="noopener">💼 LinkedIn</a>
+        <a href="https://github.com/Fariya-Zehrin"          class="spill" target="_blank" rel="noopener">🐙 GitHub</a>
+        <a href="https://www.instagram.com/far_notaway"     class="spill" target="_blank" rel="noopener">📸 Instagram</a>
+        <span class="spill" style="opacity:.45;cursor:default;border-style:dashed;border-color:var(--gold);color:var(--gold)">▶ YouTube <span style="font-family:var(--px);font-size:4px;margin-left:4px;">soon</span></span>
+      </div>
+    </div>
+
+    <!-- Hero window — pixel character -->
+    <div>
+      <div class="win hwin">
+        <div class="wbar">
+          <div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div>
+          <span class="wtitle">fariya.exe — PLAYER ONE ▶</span>
+        </div>
+        <div class="avzone">
+          <div class="gridlines"></div>
+          <div class="orbit o-a"></div>
+          <div class="orbit o-b"></div>
+
+          <!-- PIXEL CHARACTER — blonde, flower crown, wink, pink hoodie -->
+          <svg class="pxchar pxchar-wave" viewBox="0 0 80 112" width="118" xmlns="http://www.w3.org/2000/svg">
+            <!-- AHOGE -->
+            <rect x="32" y="0"  width="8"  height="8"  fill="#F5C870"/>
+            <rect x="28" y="4"  width="4"  height="6"  fill="#F5C870"/>
+            <!-- HAIR TOP -->
+            <rect x="8"  y="8"  width="64" height="8"  fill="#F5C870"/>
+            <!-- FLOWER CROWN ROW -->
+            <!-- left hair side -->
+            <rect x="0"  y="16" width="12" height="8"  fill="#F5C870"/>
+            <!-- pink flower left -->
+            <rect x="10" y="12" width="14" height="10" fill="#D090A8"/>
+            <rect x="13" y="10" width="8"  height="6"  fill="#D090A8"/>
+            <rect x="14" y="13" width="6"  height="5"  fill="#E8BCC8"/>
+            <rect x="15" y="14" width="4"  height="3"  fill="#F4D8E0"/>
+            <!-- white flower center -->
+            <rect x="26" y="10" width="18" height="12" fill="#F0D8E0"/>
+            <rect x="30" y="8"  width="10" height="6"  fill="#F0D8E0"/>
+            <rect x="32" y="11" width="6"  height="6"  fill="#FFF0F4"/>
+            <rect x="33" y="12" width="4"  height="4"  fill="white"/>
+            <!-- pink flower right -->
+            <rect x="50" y="12" width="14" height="10" fill="#D090A8"/>
+            <rect x="54" y="10" width="8"  height="6"  fill="#D090A8"/>
+            <rect x="56" y="13" width="6"  height="5"  fill="#E8BCC8"/>
+            <rect x="57" y="14" width="4"  height="3"  fill="#F4D8E0"/>
+            <!-- right hair side -->
+            <rect x="64" y="16" width="16" height="8"  fill="#F5C870"/>
+            <!-- HAIR row 3 -->
+            <rect x="0"  y="24" width="80" height="8"  fill="#F5C870"/>
+            <!-- FACE base -->
+            <rect x="12" y="32" width="56" height="48" fill="#FFDEC4"/>
+            <!-- HAIR SIDES over face -->
+            <rect x="0"  y="32" width="14" height="40" fill="#F5C870"/>
+            <rect x="66" y="32" width="14" height="40" fill="#F5C870"/>
+            <!-- hair shadow on sides -->
+            <rect x="0"  y="56" width="14" height="16" fill="#DBA840"/>
+            <rect x="66" y="56" width="14" height="16" fill="#DBA840"/>
+            <!-- CLOSED EYE (wink) — left, x=16 to x=34 -->
+            <rect x="16" y="44" width="18" height="4"  fill="#3A2840"/>
+            <rect x="14" y="48" width="4"  height="3"  fill="#3A2840"/>
+            <rect x="32" y="48" width="4"  height="3"  fill="#3A2840"/>
+            <!-- happy wink curve (lighter arc above) -->
+            <rect x="18" y="42" width="14" height="3"  fill="#D090A8" opacity=".5"/>
+            <!-- OPEN EYE — right, x=44 to x=62 -->
+            <rect x="44" y="40" width="18" height="13" fill="#C090B0"/>
+            <rect x="44" y="38" width="18" height="4"  fill="#3A2840"/>
+            <rect x="44" y="52" width="18" height="3"  fill="#3A2840"/>
+            <!-- pupil dark -->
+            <rect x="48" y="42" width="8"  height="8"  fill="#5A3070"/>
+            <!-- shine -->
+            <rect x="50" y="42" width="4"  height="4"  fill="white"/>
+            <rect x="56" y="44" width="3"  height="3"  fill="rgba(255,255,255,0.6)"/>
+            <!-- BLUSH -->
+            <rect x="14" y="54" width="14" height="8"  fill="#FFB3C6" opacity=".55"/>
+            <rect x="52" y="54" width="14" height="8"  fill="#FFB3C6" opacity=".55"/>
+            <!-- NOSE tiny -->
+            <rect x="37" y="54" width="4"  height="3"  fill="#E8C0A8"/>
+            <!-- SMALL SMILE -->
+            <rect x="32" y="62" width="14" height="4"  fill="#D08090"/>
+            <rect x="30" y="66" width="4"  height="3"  fill="#D08090"/>
+            <rect x="44" y="66" width="4"  height="3"  fill="#D08090"/>
+            <!-- CHIN / hair bottom -->
+            <rect x="0"  y="72" width="80" height="8"  fill="#F5C870"/>
+            <rect x="12" y="72" width="56" height="8"  fill="#FFDEC4"/>
+            <!-- NECK -->
+            <rect x="28" y="80" width="24" height="8"  fill="#FFDEC4"/>
+            <!-- HOODIE PINK body -->
+            <rect x="0"  y="88" width="80" height="24" fill="#C870A0"/>
+            <!-- hoodie collar lighter -->
+            <rect x="4"  y="88" width="72" height="7"  fill="#D880B0"/>
+            <!-- hoodie string -->
+            <rect x="34" y="90" width="5"  height="16" fill="#B06090"/>
+            <rect x="41" y="90" width="5"  height="16" fill="#B06090"/>
+            <!-- string end knots -->
+            <rect x="33" y="104" width="7"  height="4"  fill="#904878"/>
+            <rect x="40" y="104" width="7"  height="4"  fill="#904878"/>
+            <!-- WHITE SLEEVES -->
+            <rect x="0"  y="94" width="10" height="18" fill="#ECE8F4"/>
+            <rect x="70" y="94" width="10" height="18" fill="#ECE8F4"/>
+          </svg>
+
+          <div class="fd" style="top:16px;right:26px;--fd:3s;--dl:0s">✦</div>
+          <div class="fd" style="top:50px;left:18px;--fd:4s;--dl:.5s;font-size:14px">🌸</div>
+          <div class="fd" style="bottom:38px;right:34px;--fd:3.5s;--dl:1s;font-size:14px">★</div>
+          <div class="fd" style="bottom:16px;left:26px;--fd:5s;--dl:1.5s;font-size:12px">💜</div>
+        </div>
+        <div class="hstrow">
+          <div class="hst"><span class="hsl">LEVEL</span><span class="hsv">03</span></div>
+          <div class="hst"><span class="hsl">UNI</span><span class="hsv">UWA</span></div>
+          <div class="hst"><span class="hsl">ROLE</span><span class="hsv">DEV</span></div>
+          <div class="hst"><span class="hsl">CLASS</span><span class="hsv">CS ♠</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ ABOUT ════════════════════════════════════════ -->
+<section id="about">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag">◆ LEVEL 02</div>
+      <h2 class="stitle">ABOUT <span>ME</span></h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:260px 1fr;gap:64px;align-items:start;">
+
+      <div class="aleft">
+        <!-- Pixel character card -->
+        <div style="background:var(--bg-card);border:2px solid var(--border);border-radius:14px;overflow:hidden;width:220px;transform:rotate(-1.5deg);box-shadow:4px 6px 0 rgba(176,158,255,.28),0 12px 36px rgba(0,0,0,.4);">
+          <div style="background:linear-gradient(90deg,#1C1645,#2A1060);padding:7px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-family:var(--px);font-size:5px;color:var(--purple-l);letter-spacing:1px;">PLAYER CARD</span>
+            <span style="font-family:var(--px);font-size:5px;color:var(--pink-l);">★ LVL 3</span>
+          </div>
+          <div style="background:linear-gradient(160deg,#1A1040,#2A0E50,#0E1A44);padding:16px 20px;display:flex;justify-content:center;align-items:center;min-height:160px;position:relative;">
+            <div style="position:absolute;inset:0;opacity:.08;background:linear-gradient(rgba(176,158,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(176,158,255,1) 1px,transparent 1px);background-size:12px 12px;"></div>
+            <svg class="pxchar" viewBox="0 0 80 112" width="88" style="position:relative;z-index:1;">
+              <rect x="32" y="0"  width="8"  height="8"  fill="#F5C870"/>
+              <rect x="28" y="4"  width="4"  height="6"  fill="#F5C870"/>
+              <rect x="8"  y="8"  width="64" height="8"  fill="#F5C870"/>
+              <rect x="0"  y="16" width="12" height="8"  fill="#F5C870"/>
+              <rect x="10" y="12" width="14" height="10" fill="#D090A8"/>
+              <rect x="13" y="10" width="8"  height="6"  fill="#D090A8"/>
+              <rect x="14" y="13" width="6"  height="5"  fill="#E8BCC8"/>
+              <rect x="15" y="14" width="4"  height="3"  fill="#F4D8E0"/>
+              <rect x="26" y="10" width="18" height="12" fill="#F0D8E0"/>
+              <rect x="30" y="8"  width="10" height="6"  fill="#F0D8E0"/>
+              <rect x="32" y="11" width="6"  height="6"  fill="#FFF0F4"/>
+              <rect x="33" y="12" width="4"  height="4"  fill="white"/>
+              <rect x="50" y="12" width="14" height="10" fill="#D090A8"/>
+              <rect x="54" y="10" width="8"  height="6"  fill="#D090A8"/>
+              <rect x="56" y="13" width="6"  height="5"  fill="#E8BCC8"/>
+              <rect x="57" y="14" width="4"  height="3"  fill="#F4D8E0"/>
+              <rect x="64" y="16" width="16" height="8"  fill="#F5C870"/>
+              <rect x="0"  y="24" width="80" height="8"  fill="#F5C870"/>
+              <rect x="12" y="32" width="56" height="48" fill="#FFDEC4"/>
+              <rect x="0"  y="32" width="14" height="40" fill="#F5C870"/>
+              <rect x="66" y="32" width="14" height="40" fill="#F5C870"/>
+              <rect x="0"  y="56" width="14" height="16" fill="#DBA840"/>
+              <rect x="66" y="56" width="14" height="16" fill="#DBA840"/>
+              <rect x="16" y="44" width="18" height="4"  fill="#3A2840"/>
+              <rect x="14" y="48" width="4"  height="3"  fill="#3A2840"/>
+              <rect x="32" y="48" width="4"  height="3"  fill="#3A2840"/>
+              <rect x="44" y="40" width="18" height="13" fill="#C090B0"/>
+              <rect x="44" y="38" width="18" height="4"  fill="#3A2840"/>
+              <rect x="44" y="52" width="18" height="3"  fill="#3A2840"/>
+              <rect x="48" y="42" width="8"  height="8"  fill="#5A3070"/>
+              <rect x="50" y="42" width="4"  height="4"  fill="white"/>
+              <rect x="14" y="54" width="14" height="8"  fill="#FFB3C6" opacity=".55"/>
+              <rect x="52" y="54" width="14" height="8"  fill="#FFB3C6" opacity=".55"/>
+              <rect x="32" y="62" width="14" height="4"  fill="#D08090"/>
+              <rect x="30" y="66" width="4"  height="3"  fill="#D08090"/>
+              <rect x="44" y="66" width="4"  height="3"  fill="#D08090"/>
+              <rect x="0"  y="72" width="80" height="8"  fill="#F5C870"/>
+              <rect x="12" y="72" width="56" height="8"  fill="#FFDEC4"/>
+              <rect x="28" y="80" width="24" height="8"  fill="#FFDEC4"/>
+              <rect x="0"  y="88" width="80" height="24" fill="#C870A0"/>
+              <rect x="4"  y="88" width="72" height="7"  fill="#D880B0"/>
+              <rect x="34" y="90" width="5"  height="16" fill="#B06090"/>
+              <rect x="41" y="90" width="5"  height="16" fill="#B06090"/>
+              <rect x="0"  y="94" width="10" height="18" fill="#ECE8F4"/>
+              <rect x="70" y="94" width="10" height="18" fill="#ECE8F4"/>
+            </svg>
+          </div>
+          <div style="padding:12px 14px;border-top:1px solid var(--border);">
+            <div style="font-family:var(--px);font-size:8px;color:var(--white);margin-bottom:4px;letter-spacing:.5px;">FARIYA</div>
+            <div style="font-family:var(--px);font-size:5px;color:var(--purple-l);letter-spacing:1px;margin-bottom:10px;">FRONTEND DEV ✦ UI DESIGNER</div>
+            <div style="display:flex;gap:6px;">
+              <div style="flex:1;background:var(--chrome);border:1px solid var(--border);border-radius:4px;padding:5px 6px;text-align:center;"><div style="font-family:var(--px);font-size:4px;color:var(--muted);margin-bottom:3px;">CLASS</div><div style="font-family:var(--px);font-size:6px;color:var(--pink-l);">CS</div></div>
+              <div style="flex:1;background:var(--chrome);border:1px solid var(--border);border-radius:4px;padding:5px 6px;text-align:center;"><div style="font-family:var(--px);font-size:4px;color:var(--muted);margin-bottom:3px;">BASE</div><div style="font-family:var(--px);font-size:6px;color:var(--purple-l);">Perth</div></div>
+              <div style="flex:1;background:var(--chrome);border:1px solid var(--border);border-radius:4px;padding:5px 6px;text-align:center;"><div style="font-family:var(--px);font-size:4px;color:var(--muted);margin-bottom:3px;">EXP</div><div style="font-family:var(--px);font-size:6px;color:var(--mint);">2024+</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="strow">
+          <div class="sticker">🎓 CS@UWA</div>
+          <div class="sticker">🌏 Perth</div>
+          <div class="sticker">🧬 ex-biomath</div>
+          <div class="sticker">🎨 figma lover</div>
+          <div class="sticker">🤖 ai curious</div>
+          <div class="sticker">📸 builds in public</div>
+          <div class="sticker">☕ tea first</div>
+          <div class="sticker">🌙 night owl</div>
+        </div>
+      </div>
+
+      <div class="aright">
+        <div class="win ql">
+          <div class="wbar"><div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div><span class="wtitle">📜 quest_log.txt — MY STORY</span></div>
+          <div class="wbody">
+            I got into web dev around <strong>2020 in high school</strong> — I was on a biomath track, then found the web and everything shifted. I chose <em>Computer Science at UWA</em> specifically because of that spark. In early 2025 I discovered <strong>Figma and UI/UX design</strong>, and making my own interfaces from scratch made me happier than anything else I'd tried. Late 2025 I started <strong>learning HTML &amp; CSS</strong> — watching a design come to life in the browser is a feeling I want to chase forever. Now in 2026 I'm <em>learning JavaScript</em>, building a <strong>Mining Operations Dashboard</strong> as a real-world project alongside my studies, and weaving in AI tools to work smarter. I document the whole messy, exciting journey on Instagram. ✦
+          </div>
+        </div>
+
+        <div class="win">
+          <div class="wbar"><div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div><span class="wtitle">⏳ JOURNEY — TIMELINE</span></div>
+          <div class="wbody">
+            <div class="tline">
+              <div class="ti"><div class="tdot">💻</div><div class="tyr">~2020</div><div class="ttxt">Discovered Web Development</div><div class="tsub">High school biomath student — stumbled onto the web and the plan changed entirely.</div></div>
+              <div class="ti"><div class="tdot">🔀</div><div class="tyr">THE SWITCH</div><div class="ttxt">Biomath → Computer Science</div><div class="tsub">Chose CS for uni specifically because of that web dev spark. No regrets.</div></div>
+              <div class="ti"><div class="tdot">🎓</div><div class="tyr">2024</div><div class="ttxt">Joined UWA — CS Degree Begins</div><div class="tsub">Bachelor of Computer Science, University of Western Australia, Perth</div></div>
+              <div class="ti"><div class="tdot">🎨</div><div class="tyr">EARLY 2025</div><div class="ttxt">Discovered Figma + UI/UX Design</div><div class="tsub">Making my own interfaces from scratch — genuinely one of the happiest things I do. ✦</div></div>
+              <div class="ti"><div class="tdot">🌐</div><div class="tyr">LATE 2025</div><div class="ttxt">Started Learning HTML &amp; CSS</div><div class="tsub">Bringing designs to life in the browser. That feeling when it renders right? Unmatched.</div></div>
+              <div class="ti now"><div class="tdot">✦</div><div class="tyr">2026 — NOW</div><div class="ttxt">JavaScript + Mining Dashboard + AI</div><div class="tsub">Learning JS, building the dashboard as I go, incorporating AI to ease the workflow. Posting it all on Instagram 📸</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="win">
+          <div class="wbar"><div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div><span class="wtitle">⚡ ABILITY STATS — CURRENT LOADOUT</span></div>
+          <div class="wbody">
+            <div class="sklist" id="skillList">
+              <div class="skrow"><span class="sknm">HTML / CSS</span><div class="sktr"><div class="skfi fp" data-w="90"></div></div><span class="skpc">90%</span></div>
+              <div class="skrow"><span class="sknm">FIGMA</span><div class="sktr"><div class="skfi fv" data-w="80"></div></div><span class="skpc">80%</span></div>
+              <div class="skrow"><span class="sknm">UI / UX</span><div class="sktr"><div class="skfi fm" data-w="75"></div></div><span class="skpc">75%</span></div>
+              <div class="skrow"><span class="sknm">DESIGN SYS.</span><div class="sktr"><div class="skfi fg" data-w="70"></div></div><span class="skpc">70%</span></div>
+              <div class="skrow"><span class="sknm">JAVASCRIPT</span><div class="sktr"><div class="skfi fb" data-w="30"></div></div><span class="skpc">30%</span></div>
+              <div class="skrow"><span class="sknm">AI TOOLS</span><div class="sktr"><div class="skfi fa" data-w="65"></div></div><span class="skpc">65%</span></div>
+            </div>
+            <div style="font-family:var(--px);font-size:5px;color:var(--muted);margin-top:14px;letter-spacing:.5px;">NEXT UNLOCK: React — grinding JS foundations first ⚔</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PROJECTS ══════════════════════════════════════ -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag">◆ LEVEL 03</div>
+      <h2 class="stitle">MY <span>PROJECTS</span></h2>
+      <p style="font-family:var(--px);font-size:6px;color:var(--muted);letter-spacing:1px;margin-top:8px;">SELECT A PROJECT TO CONTINUE...</p>
+    </div>
+    <div class="pgrid">
+
+      <div class="pcard">
+        <div class="wbar"><div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div><span class="wtitle">01 — FEATURED ★</span></div>
+        <div class="pthumb pt1"><div class="tgrid"></div>⛏<div class="tbadge"><span class="b bg">IN PROGRESS</span></div></div>
+        <div class="pbody">
+          <div class="ptitle">MINING OPERATIONS DASHBOARD</div>
+          <div class="pdesc">Fleet monitoring UI with a 20+ component design system. Figma-first — currently being coded in vanilla HTML, CSS &amp; JS.</div>
+          <div class="ptags"><span class="b bv">FIGMA</span><span class="b bp">HTML/CSS</span><span class="b bb">JAVASCRIPT</span><span class="b bm">DESIGN SYSTEM</span></div>
+          <div class="plinks"><a class="pl plm" href="#">▶ VIEW DEMO</a><a class="pl" href="#">FIGMA ↗</a><a class="pl" href="#">CODE &lt;/&gt;</a></div>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="wbar"><div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div><span class="wtitle">02 — LIVE ✓</span></div>
+        <div class="pthumb pt2"><div class="tgrid"></div>🌐<div class="tbadge"><span class="b bm">LIVE ✓</span></div></div>
+        <div class="pbody">
+          <div class="ptitle">PERSONAL PORTFOLIO</div>
+          <div class="pdesc">The site you're looking at. Built from scratch with vanilla HTML, CSS &amp; JavaScript. Pastel Y2K gaming aesthetic.</div>
+          <div class="ptags"><span class="b bp">HTML</span><span class="b bv">CSS</span><span class="b bb">JAVASCRIPT</span></div>
+          <div class="plinks"><a class="pl plm" href="#">▶ VIEW SITE</a><a class="pl" href="#">CODE &lt;/&gt;</a></div>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="wbar"><div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div><span class="wtitle">03 — QUEUED UP 🔧</span></div>
+        <div class="pthumb pt3"><div class="tgrid"></div>🗂<div class="tbadge"><span class="b bg">IDEAS LOADED</span></div></div>
+        <div class="pbody">
+          <div class="ptitle">SIDE PROJECTS — QUEUE</div>
+          <div class="pdesc" style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);"><span style="color:var(--purple-l)">▸</span> "Level Up" Life Dashboard</div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);"><span style="color:var(--pink-l)">▸</span> "Digital Sanctuary" Pomodoro Timer</div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);"><span style="color:var(--blue-l)">▸</span> "Pixel-Perfect" Weather &amp; Mood App</div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);opacity:.6;"><span style="color:var(--gold)">▸</span> + more coming...</div>
+          </div>
+          <div class="plinks"><a class="pl" style="color:var(--gold);border-color:var(--gold)" href="https://www.instagram.com/far_notaway" target="_blank">📸 FOLLOW THE BUILD</a></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PLAYGROUND ════════════════════════════════════ -->
+<section id="playground">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag">◆ LEVEL 04</div>
+      <h2 class="stitle">PLAY<span>GROUND</span></h2>
+      <p style="font-family:var(--px);font-size:6px;color:var(--muted);letter-spacing:1px;margin-top:8px;">EXPERIMENTS + INTERACTIVE DEMOS</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1.25fr .85fr;gap:28px;align-items:start;">
+
+      <!-- AI Chat -->
+      <div class="win">
+        <div class="wbar" style="background:#1A0E30;"><div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div><span class="wtitle">🤖 ASK FARIYA'S AI — powered by claude-haiku</span></div>
+        <div class="cmsgs" id="chatMsgs">
+          <div class="cm">
+            <div class="cav avb"><svg viewBox="0 0 80 112" width="28" height="28" style="image-rendering:pixelated;display:block;"><rect x="8" y="8" width="64" height="8" fill="#F5C870"/><rect x="0" y="16" width="80" height="16" fill="#F5C870"/><rect x="12" y="32" width="56" height="48" fill="#FFDEC4"/><rect x="0" y="32" width="14" height="40" fill="#F5C870"/><rect x="66" y="32" width="14" height="40" fill="#F5C870"/><rect x="16" y="44" width="18" height="4" fill="#3A2840"/><rect x="44" y="40" width="18" height="13" fill="#C090B0"/><rect x="44" y="38" width="18" height="4" fill="#3A2840"/><rect x="50" y="42" width="4" height="4" fill="white"/><rect x="14" y="54" width="14" height="8" fill="#FFB3C6" opacity=".55"/><rect x="52" y="54" width="14" height="8" fill="#FFB3C6" opacity=".55"/><rect x="32" y="62" width="14" height="4" fill="#D08090"/><rect x="0" y="72" width="80" height="16" fill="#F5C870"/><rect x="28" y="80" width="24" height="8" fill="#FFDEC4"/><rect x="0" y="88" width="80" height="24" fill="#C870A0"/></svg></div>
+            <div class="cbub">Hi! I'm Fariya's portfolio assistant ✦ Ask me anything about her skills, projects, or how to get in touch!</div>
+          </div>
+        </div>
+        <div class="cinrow">
+          <input class="cin" id="chatIn" type="text" placeholder="ASK SOMETHING ABOUT FARIYA..." maxlength="200">
+          <button class="csnd" id="chatSend">↑</button>
+        </div>
+      </div>
+
+      <!-- Mini Experiments -->
+      <div>
+        <div style="font-family:var(--px);font-size:6px;color:var(--muted);letter-spacing:1px;margin-bottom:14px;">PLANNED EXPERIMENTS</div>
+        <div class="exst">
+          <div class="exitem"><div class="exic ei1">📊</div><div><div class="extl">"LEVEL UP" LIFE DASHBOARD</div><div class="exds">Habit tracker + XP system for real-life goals. Gamify your grind.</div></div></div>
+          <div class="exitem"><div class="exic ei2">🍅</div><div><div class="extl">"DIGITAL SANCTUARY" POMODORO</div><div class="exds">Focus timer with lofi vibes, pastel UI, and a calm mode.</div></div></div>
+          <div class="exitem"><div class="exic ei3">🌤</div><div><div class="extl">"PIXEL-PERFECT" WEATHER APP</div><div class="exds">Weather + daily mood tracker with pixel art weather scenes.</div></div></div>
+          <div class="exitem" style="opacity:.5;"><div class="exic ei4">🔧</div><div><div class="extl">MORE IN THE LAB</div><div class="exds">Follow <a href="https://www.instagram.com/far_notaway" target="_blank" style="color:var(--pink-l);">@far_notaway</a> for progress drops.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ CONTACT ════════════════════════════════════════ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag">◆ LEVEL 05</div>
+      <h2 class="stitle">GET IN <span>TOUCH</span></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:start;">
+
+      <div class="cleft">
+        <div class="dlg">
+          <div class="dlgtag">▼ FARIYA.EXE</div>
+          <div class="dlgtxt">Ready to collaborate? Whether you're a recruiter, a fellow dev, or just someone curious about the work — I'd love to hear from you. Let's build something great together.<span class="blk"></span></div>
+        </div>
+        <div class="clinks">
+          <a href="https://www.linkedin.com/in/fariya-zk"     class="clrow" target="_blank" rel="noopener"><div class="clic ci1">💼</div><div><div class="cll">LINKEDIN</div><div class="clv">linkedin.com/in/fariya-zk</div></div></a>
+          <a href="https://github.com/Fariya-Zehrin"          class="clrow" target="_blank" rel="noopener"><div class="clic ci2">🐙</div><div><div class="cll">GITHUB</div><div class="clv">github.com/Fariya-Zehrin</div></div></a>
+          <a href="https://www.instagram.com/far_notaway"     class="clrow" target="_blank" rel="noopener"><div class="clic ci3">📸</div><div><div class="cll">INSTAGRAM</div><div class="clv">@far_notaway</div></div></a>
+          <div class="clrow" style="opacity:.5;cursor:default"><div class="clic ci5">▶</div><div><div class="cll">YOUTUBE</div><div class="clv">coming soon...</div></div></div>
+          <div class="clrow" style="cursor:default"><div class="clic ci4">📍</div><div><div class="cll">LOCATION</div><div class="clv">Perth, Western Australia — open to remote</div></div></div>
+        </div>
+      </div>
+
+      <div class="win">
+        <div class="wbar"><div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div><span class="wtitle">✉️ NEW_MESSAGE.EXE</span></div>
+        <div class="wbody" id="formWrap">
+          <div class="cform" id="contactForm">
+            <div class="fg"><label class="flbl">YOUR NAME</label><input class="fin" id="fName" type="text" placeholder="Player One"></div>
+            <div class="fg"><label class="flbl">EMAIL ADDRESS</label><input class="fin" id="fEmail" type="email" placeholder="hello@example.com"></div>
+            <div class="fg"><label class="flbl">MESSAGE</label><textarea class="fin" id="fMsg" placeholder="I'd love to chat about..."></textarea></div>
+            <button class="fsub" id="fSubmit">SEND MESSAGE ✦</button>
+          </div>
+          <div class="form-success" id="formSuccess">
+            <div class="fs-icon">✉️</div>
+            <div class="fs-msg">MESSAGE SENT!<br>I'll get back to you soon ✦</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="ftxt">
+    FARIYAZEHRIN.COM © 2026<br>
+    CRAFTED WITH HTML · CSS · JS · ✦ LOTS OF LOVE
+  </div>
+  <div class="fhrt">🩷💜💙</div>
+</footer>
+
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   STAR FIELD
+════════════════════════════════════════════════════════ */
+const sf = document.getElementById('stars');
+for (let i = 0; i < 130; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 2.5 + 0.4;
+  const cols = ['white','#D4C0FF','#FFB3C6','#B8D6FF','#7FFFD4'];
+  s.style.cssText = `
+    left:${Math.random()*100}%;top:${Math.random()*100}%;
+    width:${size}px;height:${size}px;
+    background:${cols[Math.floor(Math.random()*cols.length)]};
+    --d:${2+Math.random()*4}s;--del:${Math.random()*5}s;--mn:${0.1+Math.random()*0.3};`;
+  sf.appendChild(s);
+}
+
+/* ═══════════════════════════════════════════════════════
+   TYPING ANIMATION — hero heading
+════════════════════════════════════════════════════════ */
+const lines = ['HI, I\'M', 'FARIYA ✦'];
+const headEl = document.getElementById('heroHead');
+let lineI = 0, charI = 0, typing = true;
+
+function typeHero() {
+  const cur = lines[lineI];
+  if (typing) {
+    charI++;
+    renderHead();
+    if (charI < cur.length) {
+      setTimeout(typeHero, lineI === 0 ? 90 : 70);
+    } else if (lineI < lines.length - 1) {
+      lineI++; charI = 0;
+      setTimeout(typeHero, 400);
+    }
+  }
+}
+
+function renderHead() {
+  const done = lines.slice(0, lineI).join('<br>');
+  const cur  = lines[lineI].slice(0, charI);
+  const isLast = lineI === lines.length - 1;
+  const styledCur = isLast
+    ? `<span class="hgrad">${cur}</span>`
+    : cur;
+  headEl.innerHTML = (done ? done + '<br>' : '') + styledCur + '<span class="tcur"></span>';
+}
+
+renderHead();
+setTimeout(typeHero, 600);
+
+/* ═══════════════════════════════════════════════════════
+   ACTIVE NAV on scroll
+════════════════════════════════════════════════════════ */
+const secs   = document.querySelectorAll('section[id]');
+const navAs  = document.querySelectorAll('.nmenu a');
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navAs.forEach(a => a.classList.remove('active'));
+      const a = document.querySelector(`.nmenu a[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { threshold: 0.35 }).observe && secs.forEach(s =>
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navAs.forEach(a => a.classList.remove('active'));
+        const a = document.querySelector(`.nmenu a[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { threshold: 0.35 }).observe(s));
+
+/* ═══════════════════════════════════════════════════════
+   SKILL BARS — animate on scroll into view
+════════════════════════════════════════════════════════ */
+let barsAnimated = false;
+const skillObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !barsAnimated) {
+      barsAnimated = true;
+      document.querySelectorAll('.skfi[data-w]').forEach((bar, i) => {
+        setTimeout(() => {
+          bar.style.width = bar.dataset.w + '%';
+        }, i * 120);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+const skillEl = document.getElementById('skillList');
+if (skillEl) skillObs.observe(skillEl);
+
+/* ═══════════════════════════════════════════════════════
+   DARK / LIGHT MODE TOGGLE
+════════════════════════════════════════════════════════ */
+let dark = true;
+document.getElementById('modeToggle').addEventListener('click', () => {
+  dark = !dark;
+  document.body.classList.toggle('light', !dark);
+  document.getElementById('togThumb').style.transform = dark ? '' : 'translateX(20px)';
+});
+
+/* ═══════════════════════════════════════════════════════
+   CURSOR SPARKLE TRAIL
+════════════════════════════════════════════════════════ */
+let cursorOn = false;
+const curBtn   = document.getElementById('curBtn');
+const curHint  = document.getElementById('curHint');
+
+curBtn.addEventListener('click', () => {
+  cursorOn = !cursorOn;
+  curHint.style.display = 'none';
+  curBtn.style.borderColor    = cursorOn ? 'var(--pink)' : '';
+  curBtn.style.boxShadow      = cursorOn ? 'var(--gp)' : '';
+  curBtn.style.backgroundColor = cursorOn ? 'rgba(255,133,162,0.12)' : '';
+});
+
+const trailGlyphs = ['✦','♥','★','◆','✿','🌸','💜','⬡'];
+document.addEventListener('mousemove', e => {
+  if (!cursorOn) return;
+  const t = document.createElement('div');
+  t.textContent = trailGlyphs[Math.floor(Math.random() * trailGlyphs.length)];
+  t.style.cssText = `
+    position:fixed;pointer-events:none;z-index:9999;
+    left:${e.clientX - 7}px;top:${e.clientY - 7}px;
+    font-size:${10 + Math.random()*6}px;
+    color:hsl(${270 + Math.random()*70},80%,82%);
+    animation:fadeout .7s ease forwards;
+    user-select:none;`;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 700);
+});
+
+const fadeKf = document.createElement('style');
+fadeKf.textContent = `@keyframes fadeout{from{opacity:1;transform:translateY(0) scale(1);}to{opacity:0;transform:translateY(-16px) scale(.2);}}`;
+document.head.appendChild(fadeKf);
+
+/* ═══════════════════════════════════════════════════════
+   CONTACT FORM — success state
+════════════════════════════════════════════════════════ */
+document.getElementById('fSubmit').addEventListener('click', () => {
+  const name  = document.getElementById('fName').value.trim();
+  const email = document.getElementById('fEmail').value.trim();
+  const msg   = document.getElementById('fMsg').value.trim();
+  if (!name || !email || !msg) {
+    document.getElementById('fSubmit').textContent = 'FILL IN ALL FIELDS ✕';
+    document.getElementById('fSubmit').style.background = 'linear-gradient(135deg,#E04060,#A03060)';
+    setTimeout(() => {
+      document.getElementById('fSubmit').textContent = 'SEND MESSAGE ✦';
+      document.getElementById('fSubmit').style.background = '';
+    }, 2000);
+    return;
+  }
+  document.getElementById('contactForm').style.display = 'none';
+  const suc = document.getElementById('formSuccess');
+  suc.style.display = 'block';
+  // confetti burst
+  for (let i = 0; i < 22; i++) {
+    const c = document.createElement('div');
+    const glyphs2 = ['✦','★','♥','◆','🌸'];
+    c.textContent = glyphs2[Math.floor(Math.random()*glyphs2.length)];
+    const rect = suc.getBoundingClientRect();
+    c.style.cssText = `
+      position:fixed;pointer-events:none;z-index:9999;
+      left:${rect.left + rect.width/2 + (Math.random()-0.5)*260}px;
+      top:${rect.top + rect.height/2 + (Math.random()-0.5)*120}px;
+      font-size:${10+Math.random()*12}px;
+      color:hsl(${280+Math.random()*80},80%,78%);
+      animation:fadeout ${0.6+Math.random()*0.8}s ease forwards;
+      user-select:none;`;
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 1500);
+  }
+});
+
+/* ═══════════════════════════════════════════════════════
+   AI CHAT — interactive demo (canned smart responses)
+════════════════════════════════════════════════════════ */
+const faq = [
+  { k:['skill','best','good at','strongest'],  a:'Her strongest skill right now is <strong>HTML & CSS</strong> — clean, complex layouts and custom animations. She\'s also excellent at <strong>Figma UI/UX</strong>, having designed a full mining dashboard design system from scratch. ✦' },
+  { k:['project','work','built','make','dashboard'], a:'Her featured project is the <strong>Mining Operations Dashboard</strong> — a 20+ component design system she designed in Figma and is now coding in HTML/CSS/JS. She also has the <strong>Level Up Life Dashboard</strong>, <strong>Digital Sanctuary Pomodoro</strong>, and <strong>Pixel-Perfect Weather App</strong> queued up!' },
+  { k:['experience','year','how long','background'], a:'Fariya discovered web dev around <strong>2020</strong> in high school while on a biomath track — it changed everything. She switched to <strong>CS at UWA</strong> in 2024, found Figma in early 2025, started coding HTML/CSS late 2025, and is now learning <strong>JavaScript in 2026</strong> while building real projects alongside.' },
+  { k:['contact','hire','reach','email','work with'], a:'You can reach Fariya via the contact form on this page, or directly through <strong>LinkedIn</strong> (fariya-zk) or <strong>Instagram</strong> (@far_notaway). She\'s open to frontend internships — Perth or remote! 📩' },
+  { k:['react','framework','next','library'],        a:'Not yet — Fariya is grinding through <strong>vanilla JavaScript</strong> first to build solid foundations before levelling up to React. That unlock is coming soon! ⚔' },
+  { k:['figma','design','ui','ux'],                  a:'Figma is where Fariya feels most at home right now. She designed a full <strong>20+ component design system</strong> for the Mining Dashboard — tokens, variants, layouts. Making interfaces from scratch genuinely makes her happy. 🎨' },
+  { k:['uwa','uni','university','study','degree'],    a:'Fariya is studying a <strong>Bachelor of Computer Science</strong> at the University of Western Australia in Perth. She joined in 2024 after switching from a biomath path because of a web dev spark she found in high school.' },
+  { k:['instagram','social','youtube','follow'],      a:'She documents her journey at <strong>@far_notaway</strong> on Instagram — projects, progress, and the messy middle of learning to code. YouTube might come later too! 📸' },
+  { k:['perth','location','where','remote'],          a:'Fariya is based in <strong>Perth, Western Australia</strong> and is open to remote opportunities as well!' },
+  { k:['ai','claude','chatbot'],                      a:'This chatbot is powered by Claude (made by Anthropic)! Fariya is also actively learning how to incorporate AI tools into her workflow to work smarter and build faster. 🤖' },
+];
+
+function getBotReply(q) {
+  const ql = q.toLowerCase();
+  for (const f of faq) {
+    if (f.k.some(k => ql.includes(k))) return f.a;
+  }
+  return `Hmm, I'm not sure about that one! You can ask me about Fariya's <strong>skills</strong>, <strong>projects</strong>, <strong>background</strong>, or how to <strong>get in touch</strong>. ✦`;
+}
+
+function addMsg(html, isUser) {
+  const msgs = document.getElementById('chatMsgs');
+  const cm = document.createElement('div');
+  cm.className = 'cm' + (isUser ? ' cmu' : '');
+
+  const av = document.createElement('div');
+  if (isUser) {
+    av.className = 'cav avu';
+    av.textContent = '👤';
+  } else {
+    av.className = 'cav avb';
+    av.innerHTML = `<svg viewBox="0 0 80 112" width="28" height="28" style="image-rendering:pixelated;display:block;"><rect x="8" y="8" width="64" height="8" fill="#F5C870"/><rect x="0" y="16" width="80" height="16" fill="#F5C870"/><rect x="12" y="32" width="56" height="48" fill="#FFDEC4"/><rect x="0" y="32" width="14" height="40" fill="#F5C870"/><rect x="66" y="32" width="14" height="40" fill="#F5C870"/><rect x="16" y="44" width="18" height="4" fill="#3A2840"/><rect x="44" y="40" width="18" height="13" fill="#C090B0"/><rect x="44" y="38" width="18" height="4" fill="#3A2840"/><rect x="50" y="42" width="4" height="4" fill="white"/><rect x="14" y="54" width="14" height="8" fill="#FFB3C6" opacity=".55"/><rect x="52" y="54" width="14" height="8" fill="#FFB3C6" opacity=".55"/><rect x="32" y="62" width="14" height="4" fill="#D08090"/><rect x="0" y="72" width="80" height="16" fill="#F5C870"/><rect x="28" y="80" width="24" height="8" fill="#FFDEC4"/><rect x="0" y="88" width="80" height="24" fill="#C870A0"/></svg>`;
+  }
+
+  const bub = document.createElement('div');
+  bub.className = 'cbub';
+  bub.innerHTML = html;
+
+  cm.appendChild(av);
+  cm.appendChild(bub);
+  msgs.appendChild(cm);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addTyping() {
+  const msgs = document.getElementById('chatMsgs');
+  const cm = document.createElement('div');
+  cm.className = 'cm'; cm.id = 'typingIndicator';
+  const av = document.createElement('div');
+  av.className = 'cav avb';
+  av.innerHTML = `<svg viewBox="0 0 80 112" width="28" height="28" style="image-rendering:pixelated;display:block;"><rect x="8" y="8" width="64" height="8" fill="#F5C870"/><rect x="0" y="16" width="80" height="16" fill="#F5C870"/><rect x="12" y="32" width="56" height="48" fill="#FFDEC4"/><rect x="0" y="32" width="14" height="40" fill="#F5C870"/><rect x="66" y="32" width="14" height="40" fill="#F5C870"/><rect x="0" y="88" width="80" height="24" fill="#C870A0"/></svg>`;
+  const bub = document.createElement('div');
+  bub.className = 'cbub typing-dots';
+  bub.innerHTML = '<span>●</span><span>●</span><span>●</span>';
+  cm.appendChild(av); cm.appendChild(bub);
+  msgs.appendChild(cm);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sendChat() {
+  const inp = document.getElementById('chatIn');
+  const val = inp.value.trim();
+  if (!val) return;
+  inp.value = '';
+  addMsg(val, true);
+  addTyping();
+  setTimeout(() => {
+    const t = document.getElementById('typingIndicator');
+    if (t) t.remove();
+    addMsg(getBotReply(val), false);
+  }, 900 + Math.random() * 600);
+}
+
+document.getElementById('chatSend').addEventListener('click', sendChat);
+document.getElementById('chatIn').addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
+</script>
+</body>
+</html>

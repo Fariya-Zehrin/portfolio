@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fariya — Portfolio Mockup v1.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800&family=VT323&display=swap" rel="stylesheet">
+
+  <style>
+    /* ══════════════════════════════════════════════
+       DESIGN TOKENS
+    ══════════════════════════════════════════════ */
+    :root {
+      --bg:          #0C0A1C;
+      --bg2:         #100E24;
+      --bg-card:     #181530;
+      --glass:       rgba(255,255,255,0.03);
+
+      --pink:        #FF85A2;
+      --pink-l:      #FFB3C6;
+      --pink-p:      #FFE4EE;
+
+      --purple:      #B09EFF;
+      --purple-l:    #D4C0FF;
+      --purple-p:    #EDE8FF;
+
+      --blue:        #85B8FF;
+      --blue-l:      #B8D6FF;
+
+      --mint:        #7FFFD4;
+      --gold:        #FFD085;
+
+      --text:        #EDE8FF;
+      --muted:       #8B80B0;
+      --white:       #FFF8FF;
+
+      --chrome:      #231E45;
+      --border:      #3D3472;
+
+      --px:          'Press Start 2P', monospace;
+      --bd:          'Nunito', sans-serif;
+      --vt:          'VT323', monospace;
+
+      --gp:  0 0 22px rgba(255,133,162,0.4),  0 0 44px rgba(255,133,162,0.15);
+      --gv:  0 0 22px rgba(176,158,255,0.4),  0 0 44px rgba(176,158,255,0.15);
+      --gb:  0 0 22px rgba(133,184,255,0.35), 0 0 44px rgba(133,184,255,0.12);
+
+      --r:  6px;
+      --rm: 12px;
+      --rl: 20px;
+    }
+
+    *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--bd);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── STAR FIELD ─────────────────────────────── */
+    #stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle var(--d,3s) ease-in-out infinite var(--del,0s);
+    }
+    @keyframes twinkle {
+      0%,100% { opacity:var(--mn,.2); transform:scale(1); }
+      50%      { opacity:1; transform:scale(1.4); }
+    }
+
+    /* ── WINDOW CHROME ───────────────────────────── */
+    .win {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--rm);
+      overflow: hidden;
+    }
+    .wbar {
+      background: var(--chrome);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .wdots { display:flex; gap:5px; }
+    .wd { width:10px; height:10px; border-radius:50%; }
+    .wd-r { background:#FF6B8A; }
+    .wd-y { background:#FFD085; }
+    .wd-g { background:#79E7A0; }
+    .wtitle {
+      font-family: var(--px);
+      font-size: 6px;
+      color: var(--muted);
+      flex: 1;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    .wbody { padding:20px; }
+
+    /* ── NAVBAR ─────────────────────────────────── */
+    nav {
+      position: fixed;
+      top:0; left:0; right:0;
+      z-index: 200;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(12,10,28,0.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav::after {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0;
+      height:2px;
+      background: linear-gradient(90deg, var(--pink), var(--purple), var(--blue), var(--mint), var(--purple), var(--pink));
+    }
+    .nlogo {
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none;
+    }
+    .ngem {
+      width:30px; height:30px;
+      border-radius:8px;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      display:flex; align-items:center; justify-content:center;
+      font-size:14px;
+      box-shadow: var(--gp);
+    }
+    .ntext {
+      font-family: var(--px);
+      font-size:9px;
+      color:var(--white);
+      letter-spacing:1px;
+    }
+    .nmenu {
+      display:flex; gap:4px;
+      list-style:none;
+    }
+    .nmenu a {
+      font-family:var(--px);
+      font-size:6px;
+      color:var(--muted);
+      text-decoration:none;
+      padding:7px 11px;
+      border-radius:var(--r);
+      transition:all .2s;
+      letter-spacing:.5px;
+    }
+    .nmenu a:hover,
+    .nmenu a.active { color:var(--pink-l); background:rgba(255,133,162,.1); }
+    .nright { display:flex; align-items:center; gap:12px; }
+    .tog {
+      width:42px; height:22px;
+      background:var(--chrome);
+      border:1.5px solid var(--border);
+      border-radius:11px;
+      position:relative;
+      cursor:pointer;
+    }
+    .tog-thumb {
+      position:absolute; left:3px; top:3px;
+      width:14px; height:14px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--purple),var(--pink));
+    }
+    .curdot {
+      width:22px; height:22px;
+      border-radius:50%;
+      border:1.5px solid var(--border);
+      background:var(--chrome);
+      display:flex; align-items:center; justify-content:center;
+      font-size:10px;
+      cursor:pointer;
+    }
+
+    /* ── LAYOUT ─────────────────────────────────── */
+    main { position:relative; z-index:1; }
+    section { min-height:100vh; padding:100px 80px 80px; }
+    .wrap { max-width:1240px; margin:0 auto; width:100%; }
+
+    /* ── SECTION HEADER ──────────────────────────── */
+    .sh { margin-bottom:48px; }
+    .stag {
+      font-family:var(--px);
+      font-size:6px;
+      color:var(--pink-l);
+      letter-spacing:2px;
+      display:flex; align-items:center; gap:10px;
+      margin-bottom:10px;
+    }
+    .stag::before { content:''; width:24px; height:1px; background:var(--pink); }
+    .stitle {
+      font-family:var(--px);
+      font-size:clamp(16px,2vw,22px);
+      color:var(--white);
+      line-height:1.7;
+    }
+    .stitle span {
+      background:linear-gradient(90deg,var(--pink-l),var(--purple-l));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    /* ── BUTTONS ─────────────────────────────────── */
+    .btn {
+      font-family:var(--px);
+      font-size:7px;
+      letter-spacing:.5px;
+      border-radius:var(--r);
+      padding:11px 20px;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:8px;
+      transition:all .2s;
+      border:none;
+    }
+    .bglow {
+      background:linear-gradient(135deg,var(--pink),#D06080);
+      color:#fff;
+      box-shadow:var(--gp);
+    }
+    .bglow:hover { transform:translateY(-2px); filter:brightness(1.1); }
+    .bout {
+      background:transparent;
+      color:var(--purple-l);
+      border:1.5px solid var(--purple);
+    }
+    .bout:hover {
+      background:rgba(176,158,255,.08);
+      transform:translateY(-2px);
+      box-shadow:var(--gv);
+    }
+
+    /* ── BADGES ──────────────────────────────────── */
+    .b {
+      font-family:var(--px);
+      font-size:5px;
+      letter-spacing:.5px;
+      padding:3px 8px;
+      border-radius:3px;
+      border:1px solid;
+      display:inline-block;
+    }
+    .bp { color:var(--pink-l);   border-color:var(--pink);   background:rgba(255,133,162,.08); }
+    .bv { color:var(--purple-l); border-color:var(--purple); background:rgba(176,158,255,.08); }
+    .bb { color:var(--blue-l);   border-color:var(--blue);   background:rgba(133,184,255,.08); }
+    .bm { color:var(--mint);     border-color:var(--mint);   background:rgba(127,255,212,.08); }
+    .bg { color:var(--gold);     border-color:var(--gold);   background:rgba(255,208,133,.08); }
+
+    /* ══════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════ */
+    #hero {
+      display:flex; align-items:center;
+      position:relative; overflow:hidden;
+    }
+    .orb {
+      position:absolute; border-radius:50%;
+      filter:blur(90px); pointer-events:none;
+    }
+    .o1 {
+      width:420px; height:420px;
+      background:radial-gradient(circle,rgba(176,158,255,.1) 0%,transparent 70%);
+      top:-120px; right:-60px;
+    }
+    .o2 {
+      width:320px; height:320px;
+      background:radial-gradient(circle,rgba(255,133,162,.08) 0%,transparent 70%);
+      bottom:0; left:80px;
+    }
+    .o3 {
+      width:200px; height:200px;
+      background:radial-gradient(circle,rgba(127,255,212,.06) 0%,transparent 70%);
+      top:30%; left:40%;
+    }
+
+    #hero .wrap {
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:64px;
+      align-items:center;
+    }
+
+    .hleft { display:flex; flex-direction:column; gap:22px; }
+
+    .hstatus {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(127,255,212,.06);
+      border:1px solid rgba(127,255,212,.22);
+      padding:5px 12px; border-radius:20px;
+      width:fit-content;
+    }
+    .pdot {
+      width:7px; height:7px; border-radius:50%;
+      background:var(--mint);
+      box-shadow:0 0 6px var(--mint);
+      animation:pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow:0 0 4px var(--mint); }
+      50%      { box-shadow:0 0 14px var(--mint), 0 0 26px rgba(127,255,212,.3); }
+    }
+    .slabel {
+      font-family:var(--px);
+      font-size:5px;
+      color:var(--mint);
+      letter-spacing:1px;
+    }
+
+    .hhead {
+      font-family:var(--px);
+      font-size:clamp(20px,2.8vw,34px);
+      line-height:1.8;
+      color:var(--white);
+    }
+    .hgrad {
+      background:linear-gradient(135deg,var(--pink-l),var(--purple-l),var(--blue-l));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .tcur {
+      display:inline-block;
+      width:3px; height:28px;
+      background:var(--pink);
+      animation:blink 1s step-end infinite;
+      vertical-align:middle;
+      margin-left:4px;
+    }
+    @keyframes blink { 50%{opacity:0;} }
+
+    .hrole {
+      font-family:var(--px);
+      font-size:9px;
+      color:var(--purple-l);
+      letter-spacing:2px; line-height:2;
+    }
+
+    .hbio {
+      font-size:14px; color:var(--muted); line-height:1.9;
+      max-width:500px;
+      border-left:3px solid var(--pink);
+      padding:12px 16px;
+      background:rgba(255,133,162,.04);
+      border-radius:0 var(--r) var(--r) 0;
+    }
+    .hbio strong { color:var(--pink-l); }
+
+    .htags { display:flex; gap:8px; flex-wrap:wrap; }
+    .hctas { display:flex; gap:12px; flex-wrap:wrap; }
+    .hsoc  { display:flex; gap:8px; margin-top:4px; }
+    .spill {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:5px 10px; border-radius:20px;
+      background:var(--bg-card);
+      border:1px solid var(--border);
+      font-size:11px; color:var(--muted);
+      text-decoration:none;
+      transition:all .2s;
+    }
+    .spill:hover { border-color:var(--purple); color:var(--purple-l); }
+
+    /* Hero right */
+    .hwin { animation:float 5s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+
+    .avzone {
+      background:linear-gradient(160deg,#1C1645,#23103C,#101C40);
+      min-height:280px;
+      display:flex; align-items:center; justify-content:center;
+      position:relative; overflow:hidden;
+    }
+    .gridlines {
+      position:absolute; inset:0; opacity:.1;
+      background:
+        linear-gradient(rgba(176,158,255,1) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(176,158,255,1) 1px,transparent 1px);
+      background-size:28px 28px;
+    }
+    .avcircle {
+      width:120px; height:120px; border-radius:50%;
+      background:linear-gradient(135deg,var(--purple),var(--pink));
+      display:flex; align-items:center; justify-content:center;
+      font-size:56px;
+      position:relative; z-index:2;
+      box-shadow:var(--gv);
+    }
+    .orbit {
+      position:absolute; border-radius:50%;
+      border:1.5px dashed rgba(176,158,255,.3);
+      animation:spin var(--sp,8s) linear infinite;
+    }
+    @keyframes spin { to{transform:rotate(360deg);} }
+    .o-a { width:160px; height:160px; --sp:8s; }
+    .o-b { width:210px; height:210px; --sp:14s; border-style:dotted; border-color:rgba(255,133,162,.2); animation-direction:reverse; }
+
+    .fd {
+      position:absolute; font-size:18px; z-index:3;
+      animation:fdeco var(--fd,3s) ease-in-out infinite var(--dl,0s);
+    }
+    @keyframes fdeco {
+      0%,100%{transform:translateY(0) rotate(0deg);}
+      50%{transform:translateY(-7px) rotate(6deg);}
+    }
+
+    .hstrow {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      border-top:1px solid var(--border);
+    }
+    .hst {
+      padding:12px 14px; text-align:center;
+      border-right:1px solid var(--border);
+    }
+    .hst:last-child { border-right:none; }
+    .hsl {
+      font-family:var(--px); font-size:5px;
+      color:var(--muted); letter-spacing:.5px;
+      display:block; margin-bottom:5px;
+    }
+    .hsv { font-family:var(--px); font-size:8px; color:var(--purple-l); }
+
+    /* ══════════════════════════════════════════════
+       ABOUT
+    ══════════════════════════════════════════════ */
+    #about { background:linear-gradient(180deg,var(--bg) 0%,#0F0C22 100%); }
+    #about .wrap {
+      display:grid;
+      grid-template-columns:260px 1fr;
+      gap:64px; align-items:start;
+    }
+
+    .aleft { display:flex; flex-direction:column; gap:20px; align-items:center; }
+
+    .polar {
+      background:white;
+      padding:12px 12px 36px;
+      border-radius:3px;
+      transform:rotate(-2.5deg);
+      box-shadow:4px 4px 0 rgba(176,158,255,.35), 0 8px 32px rgba(0,0,0,.3);
+    }
+    .pimg {
+      width:220px; height:200px;
+      background:linear-gradient(135deg,#EDE8FF,#FFE4EE);
+      border-radius:2px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:64px;
+    }
+    .pcap {
+      text-align:center;
+      font-family:var(--px); font-size:5.5px;
+      color:#555; margin-top:10px; letter-spacing:1.5px;
+    }
+
+    .strow { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+    .sticker {
+      background:var(--bg-card);
+      border:1.5px solid var(--border);
+      border-radius:10px;
+      padding:5px 10px;
+      font-size:11px; color:var(--muted);
+      display:flex; align-items:center; gap:5px;
+    }
+
+    .aright { display:flex; flex-direction:column; gap:24px; }
+
+    /* Quest log */
+    .ql .wbody { font-size:13.5px; color:var(--muted); line-height:1.9; }
+    .ql .wbody strong { color:var(--pink-l); }
+    .ql .wbody em { color:var(--purple-l); font-style:normal; }
+
+    /* Timeline */
+    .tline { position:relative; padding-left:40px; }
+    .tline::before {
+      content:''; position:absolute;
+      left:10px; top:14px; bottom:14px;
+      width:2px;
+      background:linear-gradient(180deg,var(--pink),var(--purple),var(--blue));
+    }
+    .ti { position:relative; margin-bottom:20px; }
+    .ti:last-child { margin-bottom:0; }
+    .tdot {
+      position:absolute; left:-36px; top:2px;
+      width:24px; height:24px; border-radius:50%;
+      background:var(--bg-card);
+      border:2px solid var(--purple);
+      display:flex; align-items:center; justify-content:center;
+      font-size:10px; z-index:1;
+    }
+    .ti.now .tdot { border-color:var(--pink); box-shadow:var(--gp); background:rgba(255,133,162,.1); }
+    .tyr { font-family:var(--px); font-size:5.5px; color:var(--pink-l); letter-spacing:1px; margin-bottom:3px; }
+    .ttxt { font-size:13px; color:var(--muted); font-weight:700; }
+    .tsub { font-size:11px; color:var(--muted); margin-top:2px; opacity:.8; }
+
+    /* Skills */
+    .sklist { display:flex; flex-direction:column; gap:10px; }
+    .skrow { display:grid; grid-template-columns:100px 1fr 36px; align-items:center; gap:12px; }
+    .sknm { font-family:var(--px); font-size:5.5px; color:var(--muted); letter-spacing:.5px; }
+    .sktr {
+      height:8px;
+      background:var(--chrome);
+      border:1px solid var(--border);
+      border-radius:4px; overflow:hidden;
+    }
+    .skfi {
+      height:100%; border-radius:4px; position:relative;
+    }
+    .skfi::after {
+      content:''; position:absolute;
+      top:1.5px; left:5px; right:5px;
+      height:2.5px;
+      background:rgba(255,255,255,.25);
+      border-radius:2px;
+    }
+    .fp { background:linear-gradient(90deg,#FF6B8A,var(--pink-l)); }
+    .fv { background:linear-gradient(90deg,#8B6FEF,var(--purple-l)); }
+    .fb { background:linear-gradient(90deg,#5BA0EF,var(--blue-l)); }
+    .fm { background:linear-gradient(90deg,#2ECFA0,var(--mint)); }
+    .fg { background:linear-gradient(90deg,#EFB830,var(--gold)); }
+    .skpc { font-family:var(--px); font-size:5.5px; color:var(--muted); text-align:right; }
+
+    /* ══════════════════════════════════════════════
+       PROJECTS
+    ══════════════════════════════════════════════ */
+    #projects { background:#0F0C22; }
+
+    .pgrid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+    }
+
+    .pcard {
+      border-radius:var(--rm);
+      border:1.5px solid var(--border);
+      background:var(--bg-card);
+      overflow:hidden;
+      transition:all .3s cubic-bezier(.4,0,.2,1);
+      cursor:pointer;
+    }
+    .pcard:hover {
+      transform:translateY(-6px) scale(1.01);
+      border-color:var(--pink);
+      box-shadow:var(--gp), 0 20px 40px rgba(0,0,0,.4);
+    }
+    .pcard:nth-child(2):hover { border-color:var(--purple); box-shadow:var(--gv), 0 20px 40px rgba(0,0,0,.4); }
+    .pcard:nth-child(3) { border-style:dashed; }
+    .pcard:nth-child(3):hover {
+      border-color:var(--gold);
+      box-shadow:0 0 22px rgba(255,208,133,.3), 0 20px 40px rgba(0,0,0,.4);
+    }
+
+    .pthumb {
+      aspect-ratio:16/9;
+      display:flex; align-items:center; justify-content:center;
+      font-size:44px;
+      position:relative; overflow:hidden;
+    }
+    .pt1 { background:linear-gradient(160deg,#180D40,#2D0F50,#0D1C48); }
+    .pt2 { background:linear-gradient(160deg,#0D1C40,#0D0D30,#1C0D3C); }
+    .pt3 { background:linear-gradient(160deg,#1C1040,#300D30,#1C1C10); }
+
+    .tgrid {
+      position:absolute; inset:0; opacity:.08;
+      background:
+        linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px);
+      background-size:20px 20px;
+    }
+    .tbadge { position:absolute; bottom:8px; right:8px; }
+
+    .pbody { padding:16px; display:flex; flex-direction:column; gap:9px; }
+    .ptitle { font-family:var(--px); font-size:7.5px; color:var(--white); line-height:1.7; }
+    .pdesc  { font-size:12px; color:var(--muted); line-height:1.6; }
+    .ptags  { display:flex; flex-wrap:wrap; gap:5px; }
+    .plinks { display:flex; gap:8px; padding-top:4px; }
+    .pl {
+      font-family:var(--px); font-size:5.5px; letter-spacing:.5px;
+      padding:6px 10px; border-radius:4px;
+      border:1px solid var(--border); background:var(--glass);
+      color:var(--muted); text-decoration:none; cursor:pointer;
+      transition:all .2s;
+    }
+    .pl:hover { border-color:var(--purple); color:var(--purple-l); }
+    .plm { border-color:var(--pink); color:var(--pink-l); }
+    .plm:hover { background:rgba(255,133,162,.08); }
+
+    /* ══════════════════════════════════════════════
+       PLAYGROUND
+    ══════════════════════════════════════════════ */
+    #playground { background:linear-gradient(180deg,#0F0C22 0%,var(--bg) 100%); }
+    #playground .wrap {
+      display:grid;
+      grid-template-columns:1.2fr .9fr;
+      gap:28px; align-items:start;
+    }
+
+    .cmsgs {
+      padding:16px;
+      display:flex; flex-direction:column; gap:12px;
+      min-height:200px;
+    }
+    .cm { display:flex; gap:10px; }
+    .cmu { flex-direction:row-reverse; }
+    .cav {
+      width:28px; height:28px; border-radius:7px;
+      flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
+      font-size:13px;
+    }
+    .avb { background:linear-gradient(135deg,var(--purple),var(--pink)); }
+    .avu { background:var(--chrome); border:1px solid var(--border); }
+    .cbub {
+      padding:8px 12px; border-radius:10px;
+      font-size:12px; line-height:1.6; max-width:82%;
+    }
+    .cm .cbub {
+      background:var(--chrome); border:1px solid var(--border);
+      border-radius:2px 10px 10px 10px; color:var(--text);
+    }
+    .cmu .cbub {
+      background:linear-gradient(135deg,rgba(255,133,162,.12),rgba(176,158,255,.12));
+      border:1px solid rgba(176,158,255,.2);
+      border-radius:10px 2px 10px 10px; color:var(--text);
+    }
+    .cinrow {
+      padding:12px 16px;
+      border-top:1px solid var(--border);
+      display:flex; gap:8px;
+    }
+    .cin {
+      flex:1;
+      background:var(--chrome); border:1px solid var(--border);
+      border-radius:var(--r);
+      padding:7px 12px;
+      font-family:var(--px); font-size:5.5px;
+      color:var(--text); letter-spacing:.5px;
+    }
+    .csnd {
+      background:linear-gradient(135deg,var(--pink),var(--purple));
+      border:none; border-radius:var(--r);
+      width:32px; height:32px; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      font-size:14px;
+    }
+
+    .exst { display:flex; flex-direction:column; gap:14px; }
+    .exitem {
+      border-radius:var(--rm); border:1.5px solid var(--border);
+      background:var(--bg-card); padding:14px 16px;
+      display:flex; align-items:center; gap:14px;
+      transition:all .2s; cursor:pointer;
+    }
+    .exitem:hover { border-color:var(--purple); background:rgba(176,158,255,.04); }
+    .exic {
+      width:44px; height:44px; border-radius:10px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:20px; flex-shrink:0;
+    }
+    .ei1 { background:linear-gradient(135deg,rgba(176,158,255,.2),rgba(255,133,162,.2)); }
+    .ei2 { background:linear-gradient(135deg,rgba(133,184,255,.2),rgba(127,255,212,.2)); }
+    .ei3 { background:rgba(255,208,133,.08); border:1px dashed rgba(255,208,133,.3); }
+    .extl { font-family:var(--px); font-size:7px; color:var(--white); margin-bottom:4px; letter-spacing:.5px; }
+    .exds { font-size:11px; color:var(--muted); }
+
+    /* ══════════════════════════════════════════════
+       CONTACT
+    ══════════════════════════════════════════════ */
+    #contact { background:var(--bg); }
+    #contact .wrap {
+      display:grid;
+      grid-template-columns:1fr 1.1fr;
+      gap:60px; align-items:start;
+    }
+
+    .cleft { display:flex; flex-direction:column; gap:24px; }
+
+    .dlg {
+      border:2px solid var(--pink); border-radius:var(--rm);
+      background:var(--bg-card); padding:20px;
+      position:relative;
+    }
+    .dlgtag {
+      position:absolute; top:-11px; left:14px;
+      background:var(--pink); color:white;
+      font-family:var(--px); font-size:5.5px;
+      padding:3px 8px; border-radius:3px; letter-spacing:.5px;
+    }
+    .dlgtxt { font-size:13.5px; color:var(--text); line-height:1.9; }
+    .blk {
+      display:inline-block; width:9px; height:15px;
+      background:var(--pink);
+      animation:blink 1s step-end infinite;
+      vertical-align:text-bottom; margin-left:2px;
+      border-radius:1px;
+    }
+
+    .clinks { display:flex; flex-direction:column; gap:10px; }
+    .clrow {
+      display:flex; align-items:center; gap:12px;
+      padding:10px 14px; border-radius:var(--r);
+      border:1px solid var(--border); background:var(--glass);
+      text-decoration:none; transition:all .2s;
+    }
+    .clrow:hover { border-color:var(--purple); background:rgba(176,158,255,.04); }
+    .clic {
+      width:34px; height:34px; border-radius:7px;
+      display:flex; align-items:center; justify-content:center; font-size:16px;
+    }
+    .ci1 { background:rgba(176,158,255,.15); }
+    .ci2 { background:rgba(133,184,255,.15); }
+    .ci3 { background:rgba(255,133,162,.15); }
+    .ci4 { background:rgba(127,255,212,.15); }
+    .cll { font-family:var(--px); font-size:5.5px; color:var(--muted); letter-spacing:.5px; margin-bottom:2px; }
+    .clv { font-size:12px; color:var(--text); }
+
+    .cform { display:flex; flex-direction:column; gap:14px; }
+    .fg { display:flex; flex-direction:column; gap:6px; }
+    .flbl { font-family:var(--px); font-size:5.5px; color:var(--muted); letter-spacing:.5px; }
+    .fin {
+      background:var(--chrome); border:1.5px solid var(--border);
+      border-radius:var(--r); padding:10px 14px;
+      font-family:var(--bd); font-size:13px; color:var(--text);
+      transition:border-color .2s; width:100%;
+    }
+    .fin:focus { outline:none; border-color:var(--purple); box-shadow:0 0 0 3px rgba(176,158,255,.08); }
+    textarea.fin { min-height:96px; resize:vertical; }
+    .fsub {
+      background:linear-gradient(135deg,var(--pink),var(--purple));
+      border:none; border-radius:var(--r); padding:13px;
+      font-family:var(--px); font-size:7px; color:white;
+      cursor:pointer; width:100%; letter-spacing:1px;
+      transition:all .2s;
+    }
+    .fsub:hover { opacity:.9; transform:translateY(-2px); box-shadow:var(--gp); }
+
+    /* ══════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════ */
+    footer {
+      border-top:1px solid var(--border);
+      padding:28px 80px;
+      display:flex; align-items:center; justify-content:space-between;
+      background:var(--bg);
+    }
+    .ftxt { font-family:var(--px); font-size:5.5px; color:var(--muted); line-height:2.2; letter-spacing:.5px; }
+    .fhrt { font-size:16px; display:flex; gap:6px; }
+
+    /* ── SCROLLBAR ───────────────────────────────── */
+    ::-webkit-scrollbar { width:5px; }
+    ::-webkit-scrollbar-track { background:var(--bg); }
+    ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+    ::-webkit-scrollbar-thumb:hover { background:var(--purple); }
+
+    /* ── DESIGN NOTE LABEL ───────────────────────── */
+    .dnote {
+      font-family:var(--px); font-size:5px;
+      color:var(--gold); background:rgba(255,208,133,.08);
+      border:1px dashed rgba(255,208,133,.35);
+      padding:2px 7px; border-radius:3px;
+      letter-spacing:.5px; white-space:nowrap;
+      display:inline-block; margin-top:6px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- STAR FIELD -->
+<div id="stars"></div>
+
+<!-- ════════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════════ -->
+<nav>
+  <a href="#hero" class="nlogo">
+    <div class="ngem">♠</div>
+    <span class="ntext">fariya.dev</span>
+  </a>
+
+  <ul class="nmenu">
+    <li><a href="#hero" class="active">HOME</a></li>
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#projects">PROJECTS</a></li>
+    <li><a href="#playground">PLAY</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+
+  <div class="nright">
+    <div class="tog" title="Dark / Light mode">
+      <div class="tog-thumb"></div>
+    </div>
+    <div class="curdot" title="Toggle pixel cursor">✦</div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 1 — HERO
+════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+
+  <div class="wrap">
+
+    <!-- LEFT COLUMN -->
+    <div class="hleft">
+
+      <!-- Status pill -->
+      <div class="hstatus">
+        <div class="pdot"></div>
+        <span class="slabel">OPEN TO INTERNSHIPS — PERTH / REMOTE</span>
+      </div>
+
+      <!-- Heading -->
+      <h1 class="hhead">
+        HI, I'M<br>
+        <span class="hgrad">FARIYA</span><span class="tcur"></span>
+      </h1>
+
+      <!-- Role -->
+      <p class="hrole">FRONTEND DEV IN TRAINING ✦ CS @ UWA</p>
+
+      <!-- Bio quote block -->
+      <p class="hbio">
+        <strong>Computer Science student</strong> at the University of Western Australia, Perth.
+        I build interfaces that think like <strong>systems</strong> and feel like <strong>games</strong>.
+        Currently levelling up in HTML, CSS &amp; JavaScript — one pixel at a time. ✦
+      </p>
+
+      <!-- Tech tags -->
+      <div class="htags">
+        <span class="b bp">HTML / CSS</span>
+        <span class="b bv">JAVASCRIPT</span>
+        <span class="b bb">FIGMA</span>
+        <span class="b bm">UI / UX DESIGN</span>
+        <span class="b bg">DESIGN SYSTEMS</span>
+      </div>
+
+      <!-- CTAs -->
+      <div class="hctas">
+        <a href="#projects" class="btn bglow">VIEW PROJECTS ▶</a>
+        <a href="#"         class="btn bout">DOWNLOAD CV ↓</a>
+      </div>
+
+      <!-- Socials -->
+      <div class="hsoc">
+        <a href="#" class="spill">💼 LinkedIn</a>
+        <a href="#" class="spill">🐙 GitHub</a>
+        <a href="#" class="spill">📸 Instagram</a>
+      </div>
+
+      <span class="dnote">[ DESIGN NOTE: typing animation on hero heading — useEffect / typewriter-effect npm ]</span>
+    </div>
+
+    <!-- RIGHT COLUMN — Avatar window -->
+    <div>
+      <div class="win hwin">
+        <div class="wbar">
+          <div class="wdots">
+            <div class="wd wd-r"></div>
+            <div class="wd wd-y"></div>
+            <div class="wd wd-g"></div>
+          </div>
+          <span class="wtitle">fariya.exe — PLAYER ONE ▶</span>
+        </div>
+
+        <!-- Avatar zone -->
+        <div class="avzone">
+          <div class="gridlines"></div>
+          <!-- Orbiting rings -->
+          <div class="orbit o-a"></div>
+          <div class="orbit o-b"></div>
+          <!-- Avatar circle -->
+          <div class="avcircle">🌸</div>
+          <!-- Floating decorations -->
+          <div class="fd" style="top:18px;right:28px;--fd:3s;--dl:0s">✦</div>
+          <div class="fd" style="top:52px;left:20px;--fd:4s;--dl:.5s;font-size:14px">💜</div>
+          <div class="fd" style="bottom:40px;right:36px;--fd:3.5s;--dl:1s;font-size:14px">★</div>
+          <div class="fd" style="bottom:18px;left:28px;--fd:5s;--dl:1.5s;font-size:12px">⬡</div>
+        </div>
+
+        <!-- Stats row below avatar -->
+        <div class="hstrow">
+          <div class="hst"><span class="hsl">LEVEL</span><span class="hsv">03</span></div>
+          <div class="hst"><span class="hsl">UNI</span><span class="hsv">UWA</span></div>
+          <div class="hst"><span class="hsl">ROLE</span><span class="hsv">DEV</span></div>
+          <div class="hst"><span class="hsl">CLASS</span><span class="hsv">CS ♠</span></div>
+        </div>
+      </div>
+      <span class="dnote">[ floating animation on whole window card — CSS keyframes translateY ]</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SECTION 2 — ABOUT
+════════════════════════════════════════════════ -->
+<section id="about">
+  <div class="wrap">
+
+    <div class="sh">
+      <div class="stag">◆ LEVEL 02</div>
+      <h2 class="stitle">ABOUT <span>ME</span></h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:260px 1fr;gap:64px;align-items:start;">
+
+      <!-- LEFT: polaroid + stickers -->
+      <div class="aleft">
+        <div class="polar">
+          <div class="pimg">🌸</div>
+          <div class="pcap">fariya — perth, 2025</div>
+        </div>
+
+        <div class="strow">
+          <div class="sticker">🎓 CS@UWA</div>
+          <div class="sticker">🌏 Perth</div>
+          <div class="sticker">🎮 gamer</div>
+          <div class="sticker">✦ designer</div>
+          <div class="sticker">☕ tea</div>
+          <div class="sticker">🌙 night owl</div>
+        </div>
+        <span class="dnote">[ polaroid: photo upload coming post-MVP ]</span>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="aright">
+
+        <!-- Quest log / bio -->
+        <div class="win ql">
+          <div class="wbar">
+            <div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div>
+            <span class="wtitle">📜 quest_log.txt — MY STORY</span>
+          </div>
+          <div class="wbody">
+            I'm a <strong>Computer Science student at UWA</strong> who fell in love with
+            the intersection of design and code. I started with <em>HTML and CSS</em>, built my first
+            interface, and never looked back. Right now I'm learning <strong>JavaScript</strong>
+            and working on a <em>Mining Operations Dashboard</em> — a full design system from
+            scratch in Figma, currently being coded up by hand. I'm actively looking for my first
+            <strong>frontend internship</strong> (open to November 2025 start) where I can
+            grow alongside experienced engineers and ship things that actually matter. ✦
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="win">
+          <div class="wbar">
+            <div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div>
+            <span class="wtitle">⏳ JOURNEY — TIMELINE</span>
+          </div>
+          <div class="wbody">
+            <div class="tline">
+              <div class="ti">
+                <div class="tdot">🎓</div>
+                <div class="tyr">2022</div>
+                <div class="ttxt">Started CS @ UWA</div>
+                <div class="tsub">Bachelor of Computer Science begins</div>
+              </div>
+              <div class="ti">
+                <div class="tdot">💡</div>
+                <div class="tyr">2023</div>
+                <div class="ttxt">Discovered Web Development</div>
+                <div class="tsub">First HTML page — hooked immediately</div>
+              </div>
+              <div class="ti">
+                <div class="tdot">🎨</div>
+                <div class="tyr">2024</div>
+                <div class="ttxt">Fell in Love with Figma + UI/UX</div>
+                <div class="tsub">Design systems, components, wireframes</div>
+              </div>
+              <div class="ti">
+                <div class="tdot">⛏</div>
+                <div class="tyr">JAN 2025</div>
+                <div class="ttxt">Mining Dashboard Project</div>
+                <div class="tsub">20+ component design system in Figma</div>
+              </div>
+              <div class="ti">
+                <div class="tdot">📱</div>
+                <div class="tyr">MAR 2025</div>
+                <div class="ttxt">Building in Public</div>
+                <div class="tsub">Documenting the journey on Instagram reels</div>
+              </div>
+              <div class="ti now">
+                <div class="tdot">✦</div>
+                <div class="tyr">NOW</div>
+                <div class="ttxt">Seeking Frontend Internship</div>
+                <div class="tsub">Open to Nov 2025 start — Perth or remote</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills / Ability Stats -->
+        <div class="win">
+          <div class="wbar">
+            <div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div>
+            <span class="wtitle">⚡ ABILITY STATS — CURRENT LOADOUT</span>
+          </div>
+          <div class="wbody">
+            <div class="sklist">
+              <div class="skrow">
+                <span class="sknm">HTML / CSS</span>
+                <div class="sktr"><div class="skfi fp" style="width:90%"></div></div>
+                <span class="skpc">90%</span>
+              </div>
+              <div class="skrow">
+                <span class="sknm">FIGMA</span>
+                <div class="sktr"><div class="skfi fv" style="width:80%"></div></div>
+                <span class="skpc">80%</span>
+              </div>
+              <div class="skrow">
+                <span class="sknm">JAVASCRIPT</span>
+                <div class="sktr"><div class="skfi fb" style="width:55%"></div></div>
+                <span class="skpc">55%</span>
+              </div>
+              <div class="skrow">
+                <span class="sknm">UI / UX</span>
+                <div class="sktr"><div class="skfi fm" style="width:75%"></div></div>
+                <span class="skpc">75%</span>
+              </div>
+              <div class="skrow">
+                <span class="sknm">DESIGN SYS.</span>
+                <div class="sktr"><div class="skfi fg" style="width:70%"></div></div>
+                <span class="skpc">70%</span>
+              </div>
+            </div>
+            <span class="dnote" style="margin-top:12px">[ NEXT UNLOCK: React — currently grinding JS foundations ]</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SECTION 3 — PROJECTS
+════════════════════════════════════════════════ -->
+<section id="projects">
+  <div class="wrap">
+
+    <div class="sh">
+      <div class="stag">◆ LEVEL 03</div>
+      <h2 class="stitle">MY <span>PROJECTS</span></h2>
+      <p style="font-family:var(--px);font-size:6px;color:var(--muted);letter-spacing:1px;margin-top:8px;">
+        SELECT A PROJECT TO CONTINUE...
+      </p>
+    </div>
+
+    <div class="pgrid">
+
+      <!-- CARD 1 — FEATURED -->
+      <div class="pcard">
+        <div class="wbar">
+          <div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div>
+          <span class="wtitle">01 — FEATURED ★</span>
+        </div>
+        <div class="pthumb pt1">
+          <div class="tgrid"></div>
+          ⛏
+          <div class="tbadge"><span class="b bg">IN PROGRESS</span></div>
+        </div>
+        <div class="pbody">
+          <div class="ptitle">MINING OPERATIONS DASHBOARD</div>
+          <div class="pdesc">Fleet monitoring UI with a 20+ component design system. Figma-first — currently being coded in vanilla HTML, CSS &amp; JS.</div>
+          <div class="ptags">
+            <span class="b bv">FIGMA</span>
+            <span class="b bp">HTML/CSS</span>
+            <span class="b bb">JAVASCRIPT</span>
+            <span class="b bm">DESIGN SYSTEM</span>
+          </div>
+          <div class="plinks">
+            <a class="pl plm" href="#">▶ VIEW DEMO</a>
+            <a class="pl" href="#">FIGMA ↗</a>
+            <a class="pl" href="#">CODE &lt;/&gt;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2 — LIVE -->
+      <div class="pcard">
+        <div class="wbar">
+          <div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div>
+          <span class="wtitle">02 — LIVE ✓</span>
+        </div>
+        <div class="pthumb pt2">
+          <div class="tgrid"></div>
+          🌐
+          <div class="tbadge"><span class="b bm">LIVE ✓</span></div>
+        </div>
+        <div class="pbody">
+          <div class="ptitle">PERSONAL PORTFOLIO</div>
+          <div class="pdesc">The site you're looking at right now. Built from scratch with vanilla HTML, CSS &amp; JavaScript. Pastel Y2K gaming aesthetic.</div>
+          <div class="ptags">
+            <span class="b bp">HTML</span>
+            <span class="b bv">CSS</span>
+            <span class="b bb">JAVASCRIPT</span>
+          </div>
+          <div class="plinks">
+            <a class="pl plm" href="#">▶ VIEW SITE</a>
+            <a class="pl" href="#">CODE &lt;/&gt;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3 — WIP -->
+      <div class="pcard">
+        <div class="wbar">
+          <div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div>
+          <span class="wtitle">03 — BUILDING 🔧</span>
+        </div>
+        <div class="pthumb pt3">
+          <div class="tgrid"></div>
+          🔧
+          <div class="tbadge"><span class="b bg">🔨 WIP</span></div>
+        </div>
+        <div class="pbody">
+          <div class="ptitle">??? — COMING SOON</div>
+          <div class="pdesc">Something is being built in the lab. Follow the journey on Instagram for progress updates and behind-the-scenes devlog.</div>
+          <div class="ptags">
+            <span class="b bg">MYSTERY</span>
+          </div>
+          <div class="plinks">
+            <a class="pl" style="color:var(--gold);border-color:var(--gold)" href="#">📸 FOLLOW PROGRESS</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <span class="dnote" style="margin-top:16px;display:block">
+      [ card hover: translateY -6px + pink glow border — pure CSS transition ]
+    </span>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SECTION 4 — PLAYGROUND
+════════════════════════════════════════════════ -->
+<section id="playground">
+  <div class="wrap">
+
+    <div class="sh">
+      <div class="stag">◆ LEVEL 04</div>
+      <h2 class="stitle">PLAY<span>GROUND</span></h2>
+      <p style="font-family:var(--px);font-size:6px;color:var(--muted);letter-spacing:1px;margin-top:8px;">
+        EXPERIMENTS + INTERACTIVE DEMOS
+      </p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1.25fr .85fr;gap:28px;align-items:start;">
+
+      <!-- LEFT: AI Chat window -->
+      <div class="win">
+        <div class="wbar" style="background:#1A0E30;">
+          <div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div>
+          <span class="wtitle">🤖 ASK FARIYA'S AI — powered by claude-haiku</span>
+        </div>
+
+        <div class="cmsgs">
+          <!-- Bot greeting -->
+          <div class="cm">
+            <div class="cav avb">🌸</div>
+            <div class="cbub">
+              Hi! I'm Fariya's portfolio assistant ✦ Ask me about her skills, projects, or how to get in touch!
+            </div>
+          </div>
+          <!-- User question -->
+          <div class="cm cmu">
+            <div class="cav avu">👤</div>
+            <div class="cbub">What's her strongest skill?</div>
+          </div>
+          <!-- Bot answer -->
+          <div class="cm">
+            <div class="cav avb">🌸</div>
+            <div class="cbub">
+              Her strongest technical skill is <strong>HTML &amp; CSS</strong> — she's built
+              several projects with complex layouts and animations. She's also excellent at
+              <strong>UI/UX design in Figma</strong>, having created a full design system
+              for a mining dashboard. Currently levelling up in JavaScript! 🎮✨
+            </div>
+          </div>
+        </div>
+
+        <div class="cinrow">
+          <input class="cin" type="text" placeholder="ASK SOMETHING ABOUT FARIYA...">
+          <button class="csnd">↑</button>
+        </div>
+        <span class="dnote" style="display:block;margin:0 16px 12px">
+          [ API: POST /api/chat → claude-haiku-4-5 | rate limit: 10 msg/session ]
+        </span>
+      </div>
+
+      <!-- RIGHT: Mini experiments -->
+      <div>
+        <div style="font-family:var(--px);font-size:6px;color:var(--muted);letter-spacing:1px;margin-bottom:14px;">
+          MINI EXPERIMENTS
+        </div>
+        <div class="exst">
+          <div class="exitem">
+            <div class="exic ei1">🎨</div>
+            <div>
+              <div class="extl">COLOR PALETTE GEN</div>
+              <div class="exds">Pick a base color → generate a full pastel palette in JS.</div>
+            </div>
+          </div>
+          <div class="exitem">
+            <div class="exic ei2">🧮</div>
+            <div>
+              <div class="extl">PIXEL CALCULATOR</div>
+              <div class="exds">Retro-styled calc — 100% vanilla JS, no libraries.</div>
+            </div>
+          </div>
+          <div class="exitem" style="opacity:.55">
+            <div class="exic ei3">🔧</div>
+            <div>
+              <div class="extl">MORE COMING SOON</div>
+              <div class="exds">
+                Ideas brewing...
+                <span class="dnote" style="margin-top:6px;display:block">UNDER CONSTRUCTION ⚠</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SECTION 5 — CONTACT
+════════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="wrap">
+
+    <div class="sh">
+      <div class="stag">◆ LEVEL 05</div>
+      <h2 class="stitle">GET IN <span>TOUCH</span></h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:start;">
+
+      <!-- LEFT -->
+      <div class="cleft">
+
+        <!-- Dialogue box -->
+        <div class="dlg">
+          <div class="dlgtag">▼ FARIYA.EXE</div>
+          <div class="dlgtxt">
+            Ready to collaborate? Whether you're a recruiter, a fellow dev, or just someone curious about the work — I'd love to hear from you. Let's build something great together.<span class="blk"></span>
+          </div>
+        </div>
+
+        <!-- Contact links -->
+        <div class="clinks">
+          <a href="#" class="clrow">
+            <div class="clic ci1">💼</div>
+            <div>
+              <div class="cll">LINKEDIN</div>
+              <div class="clv">linkedin.com/in/fariya</div>
+            </div>
+          </a>
+          <a href="#" class="clrow">
+            <div class="clic ci2">🐙</div>
+            <div>
+              <div class="cll">GITHUB</div>
+              <div class="clv">github.com/fariya</div>
+            </div>
+          </a>
+          <a href="#" class="clrow">
+            <div class="clic ci3">📸</div>
+            <div>
+              <div class="cll">INSTAGRAM</div>
+              <div class="clv">@fariya.builds</div>
+            </div>
+          </a>
+          <div class="clrow" style="cursor:default">
+            <div class="clic ci4">📍</div>
+            <div>
+              <div class="cll">LOCATION</div>
+              <div class="clv">Perth, Western Australia — open to remote</div>
+            </div>
+          </div>
+        </div>
+
+        <span class="dnote">[ Calendly booking link — add in v1.1 post-MVP ]</span>
+      </div>
+
+      <!-- RIGHT: Form window -->
+      <div class="win">
+        <div class="wbar">
+          <div class="wdots"><div class="wd wd-r"></div><div class="wd wd-y"></div><div class="wd wd-g"></div></div>
+          <span class="wtitle">✉️ NEW_MESSAGE.EXE</span>
+        </div>
+        <div class="wbody">
+          <div class="cform">
+            <div class="fg">
+              <label class="flbl">YOUR NAME</label>
+              <input class="fin" type="text" placeholder="Player One">
+            </div>
+            <div class="fg">
+              <label class="flbl">EMAIL ADDRESS</label>
+              <input class="fin" type="email" placeholder="hello@example.com">
+            </div>
+            <div class="fg">
+              <label class="flbl">MESSAGE</label>
+              <textarea class="fin" placeholder="I'd love to chat about..."></textarea>
+            </div>
+            <button class="fsub">SEND MESSAGE ✦</button>
+          </div>
+          <span class="dnote" style="margin-top:8px;display:block">
+            [ form backend: Formspree or Resend — no server needed ]
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
+<footer>
+  <div class="ftxt">
+    FARIYA.DEV © 2025<br>
+    CRAFTED WITH HTML · CSS · JS · ✦ LOTS OF LOVE
+  </div>
+  <div class="fhrt">🩷💜💙</div>
+</footer>
+
+
+<script>
+  /* ── STAR FIELD GENERATOR ─────────────────────── */
+  const sf = document.getElementById('stars');
+  for (let i = 0; i < 130; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.4;
+    const colors = ['white','#D4C0FF','#FFB3C6','#B8D6FF','#7FFFD4'];
+    const col = colors[Math.floor(Math.random() * colors.length)];
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      width:${size}px; height:${size}px;
+      background:${col};
+      --d:${2 + Math.random()*4}s;
+      --del:${Math.random()*5}s;
+      --mn:${0.1 + Math.random()*0.3};
+    `;
+    sf.appendChild(s);
+  }
+
+  /* ── ACTIVE NAV LINK ──────────────────────────── */
+  const secs = document.querySelectorAll('section[id]');
+  const navAs = document.querySelectorAll('.nmenu a');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navAs.forEach(a => a.classList.remove('active'));
+        const a = document.querySelector(`.nmenu a[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { threshold: 0.35 });
+  secs.forEach(s => obs.observe(s));
+
+  /* ── PIXEL CURSOR TRAIL ───────────────────────── */
+  let cursorOn = false;
+  document.querySelector('.curdot').addEventListener('click', () => {
+    cursorOn = !cursorOn;
+  });
+  document.addEventListener('mousemove', e => {
+    if (!cursorOn) return;
+    const t = document.createElement('div');
+    t.textContent = ['✦','♥','★','◆','✿'][Math.floor(Math.random()*5)];
+    t.style.cssText = `
+      position:fixed; pointer-events:none; z-index:9999;
+      left:${e.clientX - 6}px; top:${e.clientY - 6}px;
+      font-size:12px; color:hsl(${Math.random()*60+270},80%,80%);
+      animation:fadeout .6s ease forwards; user-select:none;
+    `;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 600);
+  });
+
+  /* inject fadeout keyframe once */
+  const ks = document.createElement('style');
+  ks.textContent = `@keyframes fadeout {
+    from { opacity:1; transform:translateY(0) scale(1); }
+    to   { opacity:0; transform:translateY(-12px) scale(.5); }
+  }`;
+  document.head.appendChild(ks);
+</script>
+</body>
+</html>

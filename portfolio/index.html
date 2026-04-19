@@ -795,7 +795,8 @@ document.head.appendChild(fadeKf);
 /* ═══════════════════════════════════════════════════════
    CONTACT FORM — success state
 ════════════════════════════════════════════════════════ */
-document.getElementById('fSubmit').addEventListener('click', () => {
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
   const name  = document.getElementById('fName').value.trim();
   const email = document.getElementById('fEmail').value.trim();
   const msg   = document.getElementById('fMsg').value.trim();
@@ -808,6 +809,32 @@ document.getElementById('fSubmit').addEventListener('click', () => {
     }, 2000);
     return;
   }
+  const form = document.getElementById('contactForm');
+  await fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  });
+  form.style.display = 'none';
+  const suc = document.getElementById('formSuccess');
+  suc.style.display = 'block';
+  for (let i = 0; i < 22; i++) {
+    const c = document.createElement('div');
+    const glyphs2 = ['✦','★','♥','◆','🌸'];
+    c.textContent = glyphs2[Math.floor(Math.random()*glyphs2.length)];
+    const rect = suc.getBoundingClientRect();
+    c.style.cssText = `
+      position:fixed;pointer-events:none;z-index:9999;
+      left:${rect.left + rect.width/2 + (Math.random()-0.5)*260}px;
+      top:${rect.top + rect.height/2 + (Math.random()-0.5)*120}px;
+      font-size:${10+Math.random()*12}px;
+      color:hsl(${280+Math.random()*80},80%,78%);
+      animation:fadeout ${0.6+Math.random()*0.8}s ease forwards;
+      user-select:none;`;
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 1500);
+  }
+});
   document.getElementById('contactForm').style.display = 'none';
   const suc = document.getElementById('formSuccess');
   suc.style.display = 'block';

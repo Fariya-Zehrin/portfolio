@@ -766,17 +766,7 @@ new IntersectionObserver(entries => {
       if (e.isIntersecting) {
         navAs.forEach(a => a.classList.remove('active'));
         const a = document.querySelector(`.nmenu a[href="#${e.target.id}"]`);
-        if (a) a.class<!-- ═══ CERTIFICATES ════════════════════════════════════ -->
-<section id="certificates">
-  <div class="wrap">
-    <div class="sh">
-      <div class="stag">◆ LEVEL 05</div>
-      <h2 class="stitle">CERTI<span>FICATES</span></h2>
-      <p style="font-family:var(--px);font-size:6px;color:var(--muted);letter-spacing:1px;margin-top:8px;">ACHIEVEMENTS UNLOCKED ✦</p>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
-
-      <!-- CertifiList.add('active');
+        if (a) a.class
       }
     });
   }, { threshold: 0.35 }).observe(s));
